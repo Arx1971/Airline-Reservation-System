@@ -103,7 +103,9 @@ public class APIservice implements ServiceModule {
 
     @Override
     public void validateAirlineAdminLogin(String username, String password) {
-
+        String sql = "SELECT EXISTS (\n" +
+                "  SELECT * FROM airline_admin_login WHERE admin_username = 'america1234' AND admin_password = '12345'\n" +
+                ")";
     }
 
     @Override
