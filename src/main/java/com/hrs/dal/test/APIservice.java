@@ -17,7 +17,18 @@ import java.util.List;
 
 public class APIservice implements ServiceModule {
 
+    /*
+    *   Static connection is being created to consume the data access time
+    * */
+
+    private Connection connection;
+
     public APIservice() {
+        try {
+             connection = Gateway.getDBConnection();
+        } catch (SQLException e) {
+
+        }
     }
 
     @Override
@@ -25,8 +36,8 @@ public class APIservice implements ServiceModule {
 
         try {
 
-            Connection connection = Gateway.getDBConnection();
-            Statement statement = connection.createStatement();
+            //Connection connection = Gateway.getDBConnection();
+            Statement statement = this.connection.createStatement();
             String sql = "select customer_first_name, (flight_date), source_, destination_\n" +
                     "from customer_info,flight_info,reservation_info\n" +
                     "where customer_info.customer_id = " + Integer.toString(customerId) + " and\n" +
@@ -50,8 +61,8 @@ public class APIservice implements ServiceModule {
     public void getAllFlights() {
         try {
 
-            Connection connection = Gateway.getDBConnection();
-            Statement statement = connection.createStatement();
+            //Connection connection = Gateway.getDBConnection();
+            Statement statement = this.connection.createStatement();
             String sql = "select airline_name, airline_flight_name, flight_date, source_, destination_\n" +
                     "from airline_info, airline_flight_info, flight_info\n" +
                     "where airline_info.airline_id = airline_flight_info.airline_id and\n" +
@@ -72,13 +83,16 @@ public class APIservice implements ServiceModule {
     @Override
     public void getAllFlightsByAirline(String airlineName) {
 
+        airlineName = "'" + airlineName + "'";
+
         try {
 
-            Connection connection = Gateway.getDBConnection();
-            Statement statement = connection.createStatement();
+            //Connection connection = Gateway.getDBConnection();
+            Statement statement = this.connection.createStatement();
             String sql = "select airline_name, airline_flight_name, flight_date, source_, destination_\n" +
                     "from airline_info, airline_flight_info, flight_info\n" +
-                    "where airline_info.airline_id = airline_flight_info.airline_id and\n" +
+                    "where airline_info.airline_name = " + airlineName + " and\n" +
+                    "airline_info.airline_id = airline_flight_info.airline_id and\n" +
                     "airline_flight_info.airline_flight_id = flight_info.airline_flight_id";
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
@@ -103,7 +117,9 @@ public class APIservice implements ServiceModule {
 
     @Override
     public void validateAirlineAdminLogin(String username, String password) {
-
+        String sql = "SELECT EXISTS (\n" +
+                "  SELECT * FROM airline_admin_login WHERE admin_username = 'america1234' AND admin_password = '12345'\n" +
+                ")";
     }
 
     @Override
