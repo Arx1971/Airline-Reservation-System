@@ -72,6 +72,26 @@ public class APIservice implements ServiceModule {
     @Override
     public void getAllFlightsByAirline(String airlineName) {
 
+        try {
+
+            Connection connection = Gateway.getDBConnection();
+            Statement statement = connection.createStatement();
+            String sql = "select airline_name, airline_flight_name, flight_date, source_, destination_\n" +
+                    "from airline_info, airline_flight_info, flight_info\n" +
+                    "where airline_info.airline_id = airline_flight_info.airline_id and\n" +
+                    "airline_flight_info.airline_flight_id = flight_info.airline_flight_id";
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+
+                System.out.println(rs.getString("airline_name") + " " + rs.getString("airline_flight_name")
+                        + " " + rs.getString("flight_date") + " " + rs.getString("source_") + " " + rs.getString("destination_"));
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
