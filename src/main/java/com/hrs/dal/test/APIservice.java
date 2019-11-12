@@ -1,7 +1,7 @@
 package com.hrs.dal.test;
 
 import com.hrs.dal.Gateway;
-import com.hrs.exceptions.InvalidUserName;
+import com.hrs.exceptions.InvalidUserNameException;
 import com.hrs.test.Tester;
 import com.hrs.view.models.Admin;
 import com.hrs.view.models.Customer;
@@ -143,7 +143,7 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public boolean makeReservation(Integer flightIdPk, String username) throws InvalidUserName {
+    public boolean makeReservation(Integer flightIdPk, String username) throws InvalidUserNameException {
         return true;
     }
 
