@@ -1,6 +1,6 @@
 package com.hrs.dal.test;
 
-import com.hrs.exceptions.InvalidUserName;
+import com.hrs.exceptions.InvalidUserNameException;
 import com.hrs.view.models.Admin;
 import com.hrs.view.models.Customer;
 import com.hrs.view.models.Reservation;
@@ -32,7 +32,7 @@ public interface ServiceModule {
 
     public void getAdminByAirline(String airlineName);
 
-    public boolean makeReservation(Integer flightIdPk, String username) throws InvalidUserName;
+    public boolean makeReservation(Integer flightIdPk, String username) throws InvalidUserNameException;
 
     public boolean makeReservation(Integer flightIdPk, Integer customerId);
 
