@@ -10,10 +10,6 @@ public class Tester {
 
         APIservice as = new APIservice();
         as.getAllFlightsByCustomerId(1);
-        System.out.println("\nALL FLIGHTS: ");
-        as.getAllFlights();
-        System.out.println("\nGET FLIGHT INFORMATION BY AIRLINE NAME: ");
-        as.getAllFlightsByAirline("American Airlines");
     }
 
 }
