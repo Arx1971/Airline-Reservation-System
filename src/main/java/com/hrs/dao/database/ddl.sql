@@ -105,10 +105,8 @@ CREATE TABLE flight_info(
     reservation_id INT,
     airline_flight_id INT NOT NULL,
     flight_date DATE NOT NULL,
-    source_id INT NOT NULL,
-    destination_id INT NOT NULL,
+    source_ VARCHAR(60) NOT NULL,
+    destination_ VARCHAR(60) NOT NULL,
     FOREIGN KEY (reservation_id) REFERENCES reservation_info(reservation_id) ON DELETE CASCADE,
-    FOREIGN KEY (airline_flight_id) REFERENCES airline_flight_info(airline_flight_id) ON DELETE CASCADE,
-    FOREIGN KEY (source_id) REFERENCES source_info(source_id) ON DELETE CASCADE,
-    FOREIGN KEY (destination_id) REFERENCES destination_info(destination_id) ON DELETE CASCADE
+    FOREIGN KEY (airline_flight_id) REFERENCES airline_flight_info(airline_flight_id) ON DELETE CASCADE
 );
