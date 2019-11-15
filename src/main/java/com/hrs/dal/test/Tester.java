@@ -14,6 +14,8 @@ public class Tester {
         as.getAllFlightsByAirline("American Airlines", localDate);
         System.out.println("Flight For Reservation: \n");
         as.getAllFlightsForReservation();
+        System.out.println("Reservation By Customer ID: ");
+        as.getAllReservationsByCustomerId(1);
     }
 
 }

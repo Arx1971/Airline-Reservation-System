@@ -47,3 +47,14 @@ flight_status.airline_flight_id = airline_flight_info.airline_flight_id and
 flight_max_capacity > flight_current_capacity and
 flight_status_info = 'On Time' and
 flight_source_date > '2019-11-15'
+
+
+select flight_info.flight_info_id, airline_flight_info.airline_flight_id,airline_info.airline_id,
+source_name, destination_name, flight_status_info,flight_source_date,
+flight_dest_date,flight_max_capacity,flight_current_capacity,fare,airline_name,
+airline_flight_name, flight_fly_time, flight_land_time, res_status, reservation_by, reservation_date
+from flight_info, airline_info, airline_flight_info, flight_status, customer_info, reservation_status, reservation_info
+where flight_info.airline_flight_id = airline_flight_info.airline_flight_id and
+airline_flight_info.airline_id = airline_info.airline_id and
+flight_status.airline_flight_id = airline_flight_info.airline_flight_id and
+flight_max_capacity > flight_current_capacity
