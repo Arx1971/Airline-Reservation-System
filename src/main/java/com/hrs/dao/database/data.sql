@@ -94,3 +94,14 @@ insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flig
 	values(9,3,'2019-12-04','2019-12-08','22:00:00', '04:00:00','NY' , 'ATLANTA');
 insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flight_dest_date,flight_fly_time,flight_land_time,source_name,destination_name)
 	values(1,4,'2018-01-06','2018-01-08','08:00:00', '10:00:00','BOSTON' , 'NY');
+
+INSERT INTO reservation_status(reservation_id, res_status) VALUES (1, 'ACTIVE');
+INSERT INTO reservation_status(reservation_id, res_status) VALUES (4, 'ACTIVE');
+INSERT INTO reservation_status(reservation_id, res_status) VALUES (5, 'ACTIVE');
+INSERT INTO reservation_status(reservation_id, res_status) VALUES (6, 'ACTIVE');
+INSERT INTO reservation_status(reservation_id, res_status) VALUES (7, 'ACTIVE');
+INSERT INTO reservation_status(reservation_id, res_status) VALUES (8, 'CANCELLED');
+INSERT INTO reservation_status(reservation_id, res_status) VALUES (10, 'CANCELLED');
+INSERT INTO reservation_status(reservation_id, res_status) VALUES (9, 'CANCELLED');
+INSERT INTO reservation_status(reservation_id, res_status) VALUES (2, 'CANCELLED');
+INSERT INTO reservation_status(reservation_id, res_status) VALUES (3, 'CANCELLED');

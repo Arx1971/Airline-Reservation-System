@@ -1,5 +1,6 @@
 package com.hrs.dal.test;
 
+import com.hrs.configs.Configuration;
 import com.hrs.dal.Gateway;
 import com.hrs.exceptions.InvalidPasswordException;
 import com.hrs.exceptions.InvalidUserNameException;
@@ -128,11 +129,43 @@ public class APIservice implements ServiceModule {
 
     @Override
     public Set<Reservation> getAllReservationsByCustomerId(Integer customerId) {
+
         Set<Reservation> reservations = new LinkedHashSet<>();
-        String query = new String();
+
+        String query = "select flight_info.flight_info_id, airline_flight_info.airline_flight_id,airline_info.airline_id,\n" +
+                "source_name, destination_name, flight_status_info,flight_source_date, \n" +
+                "flight_dest_date,flight_max_capacity,flight_current_capacity,fare,airline_name,\n" +
+                "airline_flight_name, flight_fly_time, flight_land_time, res_status, reservation_by, reservation_date\n" +
+                "from flight_info, airline_info, airline_flight_info, flight_status, customer_info, reservation_status, reservation_info\n" +
+                "where flight_info.airline_flight_id = airline_flight_info.airline_flight_id and\n" +
+                "airline_flight_info.airline_id = airline_info.airline_id and\n" +
+                "flight_status.airline_flight_id = airline_flight_info.airline_flight_id and\n" +
+                "customer_info.customer_id = 1 and\n" +
+                "customer_info.customer_id = reservation_info.customer_id and\n" +
+                "reservation_info.reservation_id = reservation_status.reservation_id and\n" +
+                "reservation_info.reservation_id = flight_info.reservation_id";
         try {
             Statement statement = this.connection.createStatement();
             ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
+                Integer flightID = Integer.parseInt(rs.getString("flight_info.flight_info_id"));
+                String flightCode = Integer.toString(rs.getString("airline_flight_name").hashCode());
+                LocalDate sourceDate = LocalDate.parse(rs.getString("flight_source_date"));
+                Source source = new Source(rs.getString("source_name"), sourceDate, rs.getString("flight_fly_time"));
+                LocalDate destinationDate = LocalDate.parse(rs.getString("flight_dest_date"));
+                Destination destination = new Destination(rs.getString("destination_name"), destinationDate, rs.getString("flight_land_time"));
+                Integer capacity = Integer.parseInt(rs.getString("flight_max_capacity"));
+                Integer availableSeat = capacity - Integer.parseInt(rs.getString("flight_current_capacity"));
+                Float fare = Float.parseFloat(rs.getString("fare"));
+                String status = rs.getString("flight_status_info");
+                Airline airLine = new Airline(Integer.parseInt(rs.getString("airline_flight_info.airline_flight_id")), rs.getString("airline_name"));
+                Airplane airplane = new Airplane(Integer.parseInt(rs.getString("airline_info.airline_id")), rs.getString("airline_flight_name"));
+                Flight flight = new Flight(flightID, flightCode, source, destination, availableSeat, status, airLine, airplane, fare);
+
+                Reservation reservation = new Reservation(flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
+                System.out.println(reservation);
+                reservations.add(reservation);
+            }
         } catch (SQLException e) {
 
         }
