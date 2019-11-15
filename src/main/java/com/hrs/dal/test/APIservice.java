@@ -78,6 +78,10 @@ public class APIservice implements ServiceModule {
 
     @Override
     public Set<Flight> getAllFlightsForReservation() {
+        /*
+        * @this query will show you all the current available flights, before you showed it to customer screen, make
+        * sure check the given date.
+        * */
         Set<Flight> flights = new LinkedHashSet<>();
 
         String query = "select flight_info.flight_info_id, airline_flight_info.airline_flight_id,airline_info.airline_id, \n" +
