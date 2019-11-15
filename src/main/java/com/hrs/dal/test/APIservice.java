@@ -67,8 +67,6 @@ public class APIservice implements ServiceModule {
     @Override
     public Set<Reservation> getGlobalReservationsMadeUsingSearchEngine() {
         Set<Reservation> reservations = new LinkedHashSet<>();
-        reservations.add(new Reservation(testCustomer(), testFlight1(), LocalDate.now(), STATUS_ACTIVE(), 0));
-        reservations.add(new Reservation(testCustomer(), testFlight2(), LocalDate.now(), STATUS_CANCELED(), 0));
         return reservations;
     }
 
