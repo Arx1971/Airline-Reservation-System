@@ -76,6 +76,7 @@ CREATE TABLE reservation_info(
     reservation_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_id INT NOT NULL,
     reservation_by VARCHAR(60) NOT NULL,
+    reservation_date DATE NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer_info(customer_id) ON DELETE CASCADE
 );
 

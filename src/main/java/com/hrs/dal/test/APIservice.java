@@ -129,6 +129,13 @@ public class APIservice implements ServiceModule {
     @Override
     public Set<Reservation> getAllReservationsByCustomerId(Integer customerId) {
         Set<Reservation> reservations = new LinkedHashSet<>();
+        String query = new String();
+        try {
+            Statement statement = this.connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+        } catch (SQLException e) {
+
+        }
 
         return reservations;
     }

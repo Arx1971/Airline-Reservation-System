@@ -57,16 +57,16 @@ insert into flight_status(airline_flight_id,flight_status_info) values (6, 'On T
 insert into flight_status(airline_flight_id,flight_status_info) values (2, 'Cancelled');
 insert into flight_status(airline_flight_id,flight_status_info) values (1, 'On Time');
 
-insert into reservation_info(customer_id, reservation_by) values(1, '0');
-insert into reservation_info(customer_id, reservation_by) values(2, '1');
-insert into reservation_info(customer_id, reservation_by) values(3, '0');
-insert into reservation_info(customer_id, reservation_by) values(2, '1');
-insert into reservation_info(customer_id, reservation_by) values(3, '1');
-insert into reservation_info(customer_id, reservation_by) values(1, '1');
-insert into reservation_info(customer_id, reservation_by) values(2, '0');
-insert into reservation_info(customer_id, reservation_by) values(3, '1');
-insert into reservation_info(customer_id, reservation_by) values(1, '0');
-insert into reservation_info(customer_id, reservation_by) values(3, '0');
+insert into reservation_info(customer_id, reservation_by, reservation_date) values(1, '0', '2011-12-03');
+insert into reservation_info(customer_id, reservation_by, reservation_date) values(2, '1', '2018-11-03');
+insert into reservation_info(customer_id, reservation_by, reservation_date) values(3, '0', '2019-01-03');
+insert into reservation_info(customer_id, reservation_by, reservation_date) values(2, '1', '2017-10-03');
+insert into reservation_info(customer_id, reservation_by, reservation_date) values(3, '1', '2019-10-03');
+insert into reservation_info(customer_id, reservation_by, reservation_date) values(1, '1', '2015-01-03');
+insert into reservation_info(customer_id, reservation_by, reservation_date) values(2, '0', '2012-01-03');
+insert into reservation_info(customer_id, reservation_by, reservation_date) values(3, '1', '2012-01-03');
+insert into reservation_info(customer_id, reservation_by, reservation_date) values(1, '0', '2019-01-03');
+insert into reservation_info(customer_id, reservation_by, reservation_date) values(3, '0', '2017-01-03');
 
 insert into arrival_info(airport_id, airline_flight_id, flight_status_id) values(3,5,1);
 insert into arrival_info(airport_id, airline_flight_id, flight_status_id) values(2,3,3);
