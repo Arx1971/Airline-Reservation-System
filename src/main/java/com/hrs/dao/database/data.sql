@@ -57,16 +57,16 @@ insert into flight_status(airline_flight_id,flight_status_info) values (6, 'On T
 insert into flight_status(airline_flight_id,flight_status_info) values (2, 'Cancelled');
 insert into flight_status(airline_flight_id,flight_status_info) values (1, 'On Time');
 
-insert into reservation_info(customer_id) values(1);
-insert into reservation_info(customer_id) values(2);
-insert into reservation_info(customer_id) values(3);
-insert into reservation_info(customer_id) values(2);
-insert into reservation_info(customer_id) values(3);
-insert into reservation_info(customer_id) values(1);
-insert into reservation_info(customer_id) values(2);
-insert into reservation_info(customer_id) values(3);
-insert into reservation_info(customer_id) values(1);
-insert into reservation_info(customer_id) values(3);
+insert into reservation_info(customer_id,reservation_date) values(1, '2018-12-4');
+insert into reservation_info(customer_id,reservation_date) values(2, '2019-12-9');
+insert into reservation_info(customer_id,reservation_date) values(3, '2019-12-26');
+insert into reservation_info(customer_id,reservation_date) values(2, '2019-11-10');
+insert into reservation_info(customer_id,reservation_date) values(3, '2015-01-04');
+insert into reservation_info(customer_id,reservation_date) values(1, '2014-02-04');
+insert into reservation_info(customer_id,reservation_date) values(2, '2019-12-08');
+insert into reservation_info(customer_id,reservation_date) values(3, '2013-02-04');
+insert into reservation_info(customer_id,reservation_date) values(1, '2012-02-04');
+insert into reservation_info(customer_id,reservation_date) values(3, '2011-09-04');
 
 insert into arrival_info(airport_id, airline_flight_id, flight_status_id) values(3,5,1);
 insert into arrival_info(airport_id, airline_flight_id, flight_status_id) values(2,3,3);
@@ -76,23 +76,23 @@ insert into departures_info(airport_id, airline_flight_id, flight_status_id) val
 insert into departures_info(airport_id, airline_flight_id, flight_status_id) values(3,6,4);
 insert into departures_info(airport_id, airline_flight_id, flight_status_id) values(1,1,6);
 
-insert into flight_info(reservation_id,airline_flight_id,flight_date,source_,destination_)
-	values(5,3,'2017-01-06', 'NY' , 'PENSYLVANIA');
-insert into flight_info(reservation_id,airline_flight_id,flight_date,source_,destination_)
-	values(4,6,'2012-01-03', 'BOSTON' , 'LA');
-insert into flight_info(reservation_id,airline_flight_id,flight_date,source_,destination_)
-	values(3,1,'2018-12-04', 'LA' , 'TEXAS');
-insert into flight_info(reservation_id,airline_flight_id,flight_date,source_,destination_)
-	values(1,2,'2019-09-12', 'JFK' , 'NEWARK');
-insert into flight_info(reservation_id,airline_flight_id,flight_date,source_,destination_)
-	values(8,3,'2017-12-16', 'NEWARK' , 'LGA');
-insert into flight_info(reservation_id,airline_flight_id,flight_date,source_,destination_)
-	values(9,5,'2019-11-10', 'GEORGIA' , 'BOSTON');
-insert into flight_info(reservation_id,airline_flight_id,flight_date,source_,destination_)
-	values(4,6,'2015-01-03', 'LA' , 'MI');
-insert into flight_info(reservation_id,airline_flight_id,flight_date,source_,destination_)
-	values(2,5,'2014-02-01', 'ATLANTA' , 'LA');
-insert into flight_info(reservation_id,airline_flight_id,flight_date,source_,destination_)
-	values(9,3,'2019-12-04', 'NY' , 'ATLANTA');
-insert into flight_info(reservation_id,airline_flight_id,flight_date,source_,destination_)
-	values(1,4,'2018-01-06', 'BOSTON' , 'NY');
+insert into flight_info(reservation_id,airline_flight_id,flight_date,source_id,destination_id)
+	values(5,3,'2017-01-06', 3 , 2);
+insert into flight_info(reservation_id,airline_flight_id,flight_date,source_id,destination_id)
+	values(4,6,'2012-01-03', 1 , 3);
+insert into flight_info(reservation_id,airline_flight_id,flight_date,source_id,destination_id)
+	values(3,1,'2018-12-04', 2 , 3);
+insert into flight_info(reservation_id,airline_flight_id,flight_date,source_id,destination_id)
+	values(1,2,'2019-09-12', 3 , 1);
+insert into flight_info(reservation_id,airline_flight_id,flight_date,source_id,destination_id)
+	values(8,3,'2017-12-16', 2 , 1);
+insert into flight_info(reservation_id,airline_flight_id,flight_date,source_id,destination_id)
+	values(9,5,'2019-11-10', 1 , 2);
+insert into flight_info(reservation_id,airline_flight_id,flight_date,source_id,destination_id)
+	values(4,6,'2015-01-03', 3 , 2);
+insert into flight_info(reservation_id,airline_flight_id,flight_date,source_id,destination_id)
+	values(2,5,'2014-02-01', 2 , 3);
+insert into flight_info(reservation_id,airline_flight_id,flight_date,source_id,destination_id)
+	values(9,3,'2019-12-04', 1 , 2);
+insert into flight_info(reservation_id,airline_flight_id,flight_date,source_id,destination_id)
+	values(1,4,'2018-01-06', 1 , 2);
