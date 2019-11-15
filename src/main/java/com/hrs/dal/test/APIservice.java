@@ -5,6 +5,7 @@ import com.hrs.exceptions.InvalidPasswordException;
 import com.hrs.exceptions.InvalidUserNameException;
 import com.hrs.test.Tester;
 import com.hrs.view.models.*;
+import com.hrs.view.util.FieldValue;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -32,54 +33,64 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public void getAllFlightsForReservation() {
+    public Set<Flight> getAllFlightsByAirline(String airlineName, LocalDate localDate) {
 
-    }
-
-    @Override
-    public void getAllFlightsByCustomerId(Integer customerId) {
-
+        airlineName = "'" + airlineName + "'";
+        String dt = "'" + localDate.toString() + "'";
+        Set<Flight> flights = new LinkedHashSet<>();
+        String query = "select flight_info.flight_info_id,airline_flight_info.airline_flight_id,airline_info.airline_id, source_name, destination_name, flight_status_info," +
+                "flight_source_date,flight_dest_date,flight_max_capacity,flight_current_capacity,fare,airline_name," +
+                "airline_flight_name, flight_fly_time, flight_land_time\n" +
+                "from flight_info, airline_info, airline_flight_info, flight_status\n" +
+                "where flight_info.airline_flight_id = airline_flight_info.airline_flight_id and\n" +
+                "airline_flight_info.airline_id = airline_info.airline_id and\n" +
+                "flight_status.airline_flight_id = airline_flight_info.airline_flight_id and\n" +
+                "airline_info.airline_name = " + airlineName + " and\n" +
+                "flight_source_date > " + dt;
         try {
-
-            //Connection connection = Gateway.getDBConnection();
             Statement statement = this.connection.createStatement();
-            String sql = "select customer_first_name, (flight_date), source_, destination_\n" +
-                    "from customer_info,flight_info,reservation_info\n" +
-                    "where customer_info.customer_id = " + Integer.toString(customerId) + " and\n" +
-                    "customer_info.customer_id = reservation_info.customer_id and \n" +
-                    "reservation_info.reservation_id = flight_info.reservation_id\n";
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
 
-                System.out.println(rs.getString("customer_first_name") + " " + rs.getString("flight_date")
-                        + " " + rs.getString("source_") + " " + rs.getString("destination_"));
+                Integer flightID = Integer.parseInt(rs.getString("flight_info.flight_info_id"));
+                String flightCode = Integer.toString(rs.getString("airline_flight_name").hashCode());
+                LocalDate sourceDate = LocalDate.parse(rs.getString("flight_source_date"));
+                Source source = new Source(rs.getString("source_name"), sourceDate, rs.getString("flight_fly_time"));
+                LocalDate destinationDate = LocalDate.parse(rs.getString("flight_dest_date"));
+                Destination destination = new Destination(rs.getString("destination_name"), destinationDate, rs.getString("flight_land_time"));
+                Integer capacity = Integer.parseInt(rs.getString("flight_max_capacity"));
+                Integer availableSeat = capacity - Integer.parseInt(rs.getString("flight_current_capacity"));
+                Float fare = Float.parseFloat(rs.getString("fare"));
+                String status = rs.getString("flight_status_info");
+                Airline airLine = new Airline(Integer.parseInt(rs.getString("airline_flight_info.airline_flight_id")), rs.getString("airline_name"));
+                Airplane airplane = new Airplane(Integer.parseInt(rs.getString("airline_info.airline_id")), rs.getString("airline_flight_name"));
 
+                Flight flight = new Flight(flightID, flightCode, source, destination, availableSeat, status, airLine, airplane, fare);
+                System.out.println(flight);
+                flights.add(flight);
             }
-
         } catch (SQLException e) {
-            e.printStackTrace();
+
         }
 
+        return flights;
     }
 
     @Override
-    public void getAllFlightsByAirlineForReservation(String airlineName) {
-
-    }
-
-    @Override
-    public Set<Flight> getAllFlightsByAirline(String airlineName) {
-        return new LinkedHashSet<>();
+    public Set<Flight> getAllFlightsForReservation() {
+        return Tester.testFlights();
     }
 
     @Override
     public Set<Reservation> getAllReservationsByCustomerId(Integer customerId) {
-        return null;
+        Set<Reservation> reservations = new LinkedHashSet<>();
+
+        return reservations;
     }
 
     @Override
     public Customer getCustomerByLogin(String username, String password) throws InvalidUserNameException, InvalidPasswordException {
-        return null;
+        return Tester.testCustomer();
     }
 
     @Override
@@ -89,90 +100,86 @@ public class APIservice implements ServiceModule {
 
     @Override
     public Admin getAirlineAdminByLogin(String airline, String username, String password) throws InvalidUserNameException, InvalidPasswordException {
-        return new Admin("Hamidur", "Rahman");
+        return new Admin("", "");
     }
 
     @Override
-    public Set<Reservation> getGlobalReservations() {
+    public Set<Reservation> getGlobalReservationsMadeUsingSearchEngine() {
         Set<Reservation> reservations = new LinkedHashSet<>();
-        reservations.add(new Reservation(testCustomer(), testFlight1(), LocalDate.now(), STATUS_ACTIVE(), 0));
-        reservations.add(new Reservation(testCustomer(), testFlight2(), LocalDate.now(), STATUS_CANCELED(), 0));
         return reservations;
-    }
-
-    @Override
-    public Set<Reservation> getCustomerReservations(Integer customerId) {
-        return null;
     }
 
     @Override
     public Set<Airplane> getAllAirPlaneByAirLine(String airlineName) {
         Set<Airplane> airplanes = new LinkedHashSet<>();
-        airplanes.add(new Airplane(11, "AP1"));
-        airplanes.add(new Airplane(12, "AP2"));
-        airplanes.add(new Airplane(13, "AP3"));
-        airplanes.add(new Airplane(14, "AP4"));
+
         return airplanes;
     }
 
     @Override
     public Set<Airport> getAllAirports() {
         Set<Airport> airports = new LinkedHashSet<>();
-        airports.add(new Airport(101, "A1"));
-        airports.add(new Airport(102, "A2"));
-        airports.add(new Airport(103, "A3"));
-        airports.add(new Airport(104, "A4"));
         return airports;
     }
 
     @Override
-    public Set<Reservation> getAllReservationsByAirline(String airlineName) {
-        return null;
+    public Set<Flight> getAllFlightsByAirlineForReservation(String airlineName) {
+        return Tester.testFlights();
     }
 
     @Override
-    public boolean insertNewCustomer(String firstName, String lastName, String email, String password) {
-        return false;
+    public boolean insertNewCustomer(String firstName, String lastName, String email, String password)
+//            throws IllegalArgumentException, InvalidEmailException
+    {
+        try {
+
+        } catch (Exception ex) {
+
+        }
+        return true;
     }
 
     @Override
     public boolean cancelReservation(Integer customerId, Integer reservationId) {
-        return false;
-    }
-
-    @Override
-    public void cancelReservation2testFunc(Integer customerId) {
-
+        return true;
     }
 
     @Override
     public boolean cancelFlight(Integer flightId) {
-        return false;
+        return true;
     }
 
     @Override
-    public boolean makeReservation(Integer flightIdPk, String username, String password) throws InvalidUserNameException, InvalidPasswordException {
-        return false;
+    public boolean makeReservation(Integer flightIdPk, String username, String password)
+            throws InvalidUserNameException, InvalidPasswordException {
+        return true;
     }
 
     @Override
     public boolean makeReservation(Integer flightIdPk, Integer customerId) {
-        return false;
+        return true;
     }
 
     @Override
-    public boolean makeReservationBySE(Integer flightIdPk, String username, String password) throws InvalidUserNameException, InvalidPasswordException {
-        return false;
+    public boolean makeReservationBySE(Integer flightIdPk, String username, String password)
+            throws InvalidUserNameException, InvalidPasswordException {
+        return true;
     }
 
     @Override
-    public boolean makeReservationBySE(Integer flightIdPk) {
-        return false;
+    public boolean makeReservationBySE(Integer flightIdPk, Integer customerId) {
+        return true;
     }
 
     @Override
     public boolean insertFlightByAirline(Flight flight) {
         return true;
+    }
+
+    @Override
+    public Set<Flight> getAllFlightsByAirport(String airportName) {
+        Set<Flight> flights = new LinkedHashSet<>();
+        return flights;
     }
 
 }
