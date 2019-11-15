@@ -79,10 +79,11 @@ public class APIservice implements ServiceModule {
     @Override
     public Set<Flight> getAllFlightsForReservation() {
         /*
-        * @this query will show you all the current available flights, before you showed it to customer screen, make
-        * sure check the given date.
-        * */
+         * @this query will show you all the current available flights, before you showed it to customer screen, make
+         * sure check the given date.
+         * */
         Set<Flight> flights = new LinkedHashSet<>();
+        String current = "'" + LocalDate.now().toString() + "'";
 
         String query = "select flight_info.flight_info_id, airline_flight_info.airline_flight_id,airline_info.airline_id, \n" +
                 "source_name, destination_name, flight_status_info,flight_source_date, \n" +
@@ -93,7 +94,8 @@ public class APIservice implements ServiceModule {
                 "airline_flight_info.airline_id = airline_info.airline_id and\n" +
                 "flight_status.airline_flight_id = airline_flight_info.airline_flight_id and\n" +
                 "flight_max_capacity > flight_current_capacity and\n" +
-                "flight_status_info = 'On Time'";
+                "flight_status_info = 'On Time' and\n" +
+                "flight_source_date > " + current;
 
         try {
             Statement statement = this.connection.createStatement();
