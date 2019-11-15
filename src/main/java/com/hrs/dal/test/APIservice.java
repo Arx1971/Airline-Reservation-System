@@ -140,8 +140,8 @@ public class APIservice implements ServiceModule {
                 "where flight_info.airline_flight_id = airline_flight_info.airline_flight_id and\n" +
                 "airline_flight_info.airline_id = airline_info.airline_id and\n" +
                 "flight_status.airline_flight_id = airline_flight_info.airline_flight_id and\n" +
-                "customer_info.customer_id = 1 and\n" +
-                "customer_info.customer_id = reservation_info.customer_id and\n" +
+                "customer_info.customer_id = " + Integer.toString(customerId) + " and\n " +
+        "customer_info.customer_id = reservation_info.customer_id and\n" +
                 "reservation_info.reservation_id = reservation_status.reservation_id and\n" +
                 "reservation_info.reservation_id = flight_info.reservation_id";
         try {

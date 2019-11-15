@@ -15,7 +15,7 @@ public class Tester {
         System.out.println("Flight For Reservation: \n");
         as.getAllFlightsForReservation();
         System.out.println("Reservation By Customer ID: ");
-        as.getAllReservationsByCustomerId(1);
+        as.getAllReservationsByCustomerId(2);
     }
 
 }
