@@ -438,6 +438,28 @@ public class APIservice implements ServiceModule {
     @Override
     public Set<Airport> getAllAirports() {
         Set<Airport> airports = new LinkedHashSet<>();
+        String query = "select airport_id, airport_name\n" +
+                "from airport_info";
+        try {
+            Statement statement = this.connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            int rowcount = 0;
+            if (rs.last()) {
+                rowcount = rs.getRow();
+                rs.beforeFirst();
+            }
+            if (rowcount == 0) {
+                throw new IllegalArgumentException("No Airport Found");
+            }
+            while (rs.next()) {
+                Airport airport = new Airport(Integer.parseInt(rs.getString("airport_id")), rs.getString("airport_name"));
+                airports.add(airport);
+                System.out.println(rs.getString("airport_id") + " " + rs.getString("airport_name"));
+            }
+        } catch (SQLException e) {
+
+        }
+
         return airports;
     }
 

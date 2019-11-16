@@ -27,6 +27,8 @@ public class Tester {
         as.getGlobalReservationsMadeUsingSearchEngine();
         System.out.println("getAllAirPlaneByAirLine");
         as.getAllAirPlaneByAirLine("American Airlines");
+        System.out.println("AIRPORTS NAME");
+        as.getAllAirports();
     }
 
 }
