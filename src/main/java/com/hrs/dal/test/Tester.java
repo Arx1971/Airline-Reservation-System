@@ -21,7 +21,7 @@ public class Tester {
         as.getAllReservationsByCustomerId(2);
         System.out.println("LOGIN INFORMATION BY CUSTOMER: USERNAME AND PASSWORD");
         as.getCustomerByLogin("megatron@email.com", "12345");
-        as.getGlobalAdminByLogin("delta1234", "123456");
+        as.getGlobalAdminByLogin("delta1234", "12345");
     }
 
 }

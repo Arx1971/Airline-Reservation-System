@@ -278,10 +278,13 @@ public class APIservice implements ServiceModule {
 
     @Override
     public Admin getGlobalAdminByLogin(String username, String password) throws InvalidUserNameException, InvalidPasswordException {
+        username = "'" + username + "'";
+        password = "'" + password + "'";
+
         String query = "select airline_admin_fname, airline_admin_lname, admin_username, admin_password\n" +
                 "from airline_admin, airline_admin_login\n" +
                 "where airline_admin.airline_admin_id = airline_admin_login.airline_admin_id and\n" +
-                "admin_username = 'jetblue1234' and admin_password = '12345'";
+                "admin_username = " + username + " and admin_password = " + password;
         Admin admin = new Admin();
         try {
             Statement statement = this.connection.createStatement();
@@ -310,6 +313,17 @@ public class APIservice implements ServiceModule {
 
     @Override
     public Admin getAirlineAdminByLogin(String airline, String username, String password) throws InvalidUserNameException, InvalidPasswordException {
+
+        username = "'" + username + "'";
+        password = "'" + password + "'";
+
+        String query = "select airline_admin_fname, airline_admin_lname, admin_username, admin_password, airline_name\n" +
+                "from airline_admin, airline_admin_login, airline_info\n" +
+                "where airline_admin.airline_admin_id = airline_admin_login.airline_admin_id and\n" +
+                "admin_username = 'jetblue1234' and admin_password = '12345'and \n" +
+                "airline_info.airline_id = airline_admin.airline_id\n" +
+                "and airline_name = 'Delta'";
+
         return new Admin("", "");
     }
 
