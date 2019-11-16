@@ -316,15 +316,39 @@ public class APIservice implements ServiceModule {
 
         username = "'" + username + "'";
         password = "'" + password + "'";
+        airline = "'" + airline + "'";
 
         String query = "select airline_admin_fname, airline_admin_lname, admin_username, admin_password, airline_name\n" +
                 "from airline_admin, airline_admin_login, airline_info\n" +
                 "where airline_admin.airline_admin_id = airline_admin_login.airline_admin_id and\n" +
-                "admin_username = 'jetblue1234' and admin_password = '12345'and \n" +
+                "admin_username = " + username + " and admin_password = " + password + " and \n" +
                 "airline_info.airline_id = airline_admin.airline_id\n" +
-                "and airline_name = 'Delta'";
+                "and airline_name = " + airline;
 
-        return new Admin("", "");
+        Admin admin = new Admin();
+        try {
+            Statement statement = this.connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+            int rowcount = 0;
+            if (rs.last()) {
+                rowcount = rs.getRow();
+                rs.beforeFirst();
+            }
+            if (rowcount == 0) {
+                throw new IllegalArgumentException("Admin Not Found");
+            }
+
+            while (rs.next()) {
+                admin = new Admin(rs.getString("airline_admin_fname"), rs.getString("admin_username"), new Login(rs.getString("admin_username"), rs.getString("admin_password")));
+            }
+            System.out.println(admin);
+
+        } catch (SQLException e) {
+
+        }
+
+        return admin;
     }
 
     @Override
