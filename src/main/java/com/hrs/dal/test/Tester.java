@@ -29,6 +29,8 @@ public class Tester {
         as.getAllAirPlaneByAirLine("American Airlines");
         System.out.println("AIRPORTS NAME");
         as.getAllAirports();
+        System.out.println("getAllFlightsByAirlineForReservation");
+        as.getAllFlightsByAirlineForReservation("American Airlines");
     }
 
 }
