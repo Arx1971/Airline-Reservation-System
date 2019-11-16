@@ -57,4 +57,13 @@ from flight_info, airline_info, airline_flight_info, flight_status, customer_inf
 where flight_info.airline_flight_id = airline_flight_info.airline_flight_id and
 airline_flight_info.airline_id = airline_info.airline_id and
 flight_status.airline_flight_id = airline_flight_info.airline_flight_id and
-flight_max_capacity > flight_current_capacity
+customer_info.customer_id = 1 and
+customer_info.customer_id = reservation_info.customer_id and
+reservation_info.reservation_id = reservation_status.reservation_id and
+reservation_info.reservation_id = flight_info.reservation_id
+
+select customer_info.customer_id, customer_first_name, customer_last_name, customer_email, cust_username, cust_password
+from customer_info, customer_login
+where customer_info.customer_id = customer_login.customer_id
+and cust_username = 'megatron@email.com' and cust_password = '12345'
+
