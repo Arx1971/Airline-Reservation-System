@@ -406,7 +406,32 @@ public class APIservice implements ServiceModule {
     @Override
     public Set<Airplane> getAllAirPlaneByAirLine(String airlineName) {
         Set<Airplane> airplanes = new LinkedHashSet<>();
+        airlineName = "'" + airlineName + "'";
+        String query = "select airline_flight_id, airline_flight_name\n" +
+                "from airline_flight_info, airline_info\n" +
+                "where airline_info.airline_id = airline_flight_info.airline_id\n" +
+                "and airline_name = " + airlineName;
+        try {
+            Statement statement = this.connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            int rowcount = 0;
+            if (rs.last()) {
+                rowcount = rs.getRow();
+                rs.beforeFirst();
+            }
+            if (rowcount == 0) {
+                throw new IllegalArgumentException("Airline Name has No Airplane");
+            }
+            while (rs.next()) {
+                Airplane airplane = new Airplane(Integer.parseInt(rs.getString("airline_flight_id")), rs.getString("airline_flight_name"));
+                airplanes.add(airplane);
+                //System.out.println(rs.getString("airline_flight_id") + " " + rs.getString("airline_flight_name"));
+            }
 
+        } catch (SQLException e) {
+
+        }
+        System.out.println(airplanes);
         return airplanes;
     }
 

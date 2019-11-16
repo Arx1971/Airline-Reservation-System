@@ -25,6 +25,8 @@ public class Tester {
         as.getAirlineAdminByLogin("Delta", "Jetblue1234", "12345");
         System.out.println("getGlobalReservationsMadeUsingSearchEngine");
         as.getGlobalReservationsMadeUsingSearchEngine();
+        System.out.println("getAllAirPlaneByAirLine");
+        as.getAllAirPlaneByAirLine("American Airlines");
     }
 
 }
