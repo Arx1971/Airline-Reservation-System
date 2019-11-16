@@ -23,6 +23,8 @@ public class Tester {
         as.getCustomerByLogin("megatron@email.com", "12345");
         as.getGlobalAdminByLogin("delta1234", "12345");
         as.getAirlineAdminByLogin("Delta", "Jetblue1234", "12345");
+        System.out.println("getGlobalReservationsMadeUsingSearchEngine");
+        as.getGlobalReservationsMadeUsingSearchEngine();
     }
 
 }
