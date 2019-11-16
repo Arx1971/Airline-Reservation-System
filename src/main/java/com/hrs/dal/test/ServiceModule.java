@@ -1,5 +1,6 @@
 package com.hrs.dal.test;
 
+import com.hrs.exceptions.AirlineReservationSystemException;
 import com.hrs.exceptions.InvalidEmailException;
 import com.hrs.exceptions.InvalidPasswordException;
 import com.hrs.exceptions.InvalidUserNameException;
@@ -24,7 +25,7 @@ public interface ServiceModule {
 
     // Returns a set of flights from the current date to future dates, those flights will be visible to admin for
     // flight cancellation
-    Set<Flight> getAllFlightsByAirline(String airlineName, LocalDate localDate);
+    Set<Flight> getAllFlightsByAirline(String airlineName, LocalDate localDate) throws AirlineReservationSystemException;
 
     // Returns a set of reservations of a customer by id, must include reservation that are cancelled as well
     Set<Reservation> getAllReservationsByCustomerId(Integer customerId);

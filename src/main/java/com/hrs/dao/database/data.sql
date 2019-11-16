@@ -9,6 +9,12 @@ insert into airline_info(airline_name) values ('Jet Blue');
 insert into airport_info(airport_name) values ('JFK');
 insert into airport_info(airport_name) values ('LA');
 insert into airport_info(airport_name) values ('MI');
+insert into airport_info(airport_name) values ('BOSTON');
+insert into airport_info(airport_name) values ('NEWARK');
+insert into airport_info(airport_name) values ('GEORGIA');
+insert into airport_info(airport_name) values ('ATLANTA');
+insert into airport_info(airport_name) values ('NY');
+
 
 insert into source_info(airport_id) values (1);
 insert into source_info(airport_id) values (2);
@@ -35,9 +41,9 @@ insert into airline_flight_info(airline_flight_name, airline_id, fare, flight_ma
 insert into airline_flight_info(airline_flight_name, airline_id, fare, flight_max_capacity, flight_current_capacity)
 	value ('Boeing 707', 1,	55.0,	25, 0);
 
-insert into airline_admin(airline_id) values (2);
-insert into airline_admin(airline_id) values (3);
-insert into airline_admin(airline_id) values (1);
+insert into airline_admin(airline_id, airline_admin_fname, airline_admin_lname) values (2, 'Hamid', 'UR');
+insert into airline_admin(airline_id, airline_admin_fname, airline_admin_lname) values (3, 'Syeed', 'Ah');
+insert into airline_admin(airline_id, airline_admin_fname, airline_admin_lname) values (1, 'Rahin', 'arx');
 
 insert into airline_admin_login(airline_admin_id, admin_username, admin_password) values (2,'america1234', 12345);
 insert into airline_admin_login(airline_admin_id, admin_username, admin_password) values (3,'jetblue1234', 12345);

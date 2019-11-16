@@ -46,6 +46,8 @@ CREATE TABLE airline_flight_info(
 
 CREATE TABLE airline_admin(
 	airline_admin_id INT PRIMARY KEY AUTO_INCREMENT,
+	airline_admin_fname VARCHAR(60),
+	airline_admin_lname VARCHAR(60),
     airline_id INT,
     FOREIGN KEY (airline_id) REFERENCES airline_info(airline_id) ON DELETE CASCADE
 );
