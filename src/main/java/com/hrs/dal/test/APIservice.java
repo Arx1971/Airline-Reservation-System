@@ -587,4 +587,40 @@ public class APIservice implements ServiceModule {
 
     }
 
+    private void insert_airline_info(String airline_name) {
+    }
+
+    private void insert_airport_info(String airport_name) {
+    }
+
+    private void insert_arrival_info(Integer airport_id, Integer airline_flight_id, Integer flight_status_id) {
+    }
+
+    private void insert_available_flight_id(Integer airline_flight_id, LocalDate localDate) {
+    }
+
+    private void insert_customer_info(String firstname, String lastname, String email) {
+
+    }
+
+    private void insert_customer_login(String username, String password) {
+
+    }
+
+    private void insert_departures_info(Integer airport_id, Integer airline_flight_id, Integer flight_status_id) {
+
+    }
+
+    private void destination_info(Integer airport_id) {
+
+    }
+
+    private void source_info(Integer airport_id) {
+
+    }
+
+    private void flight_info(Integer reservation_id, Integer airline_flight_id, LocalDate sourceDate, LocalDate destination_date, String fly_time, String land_time, String source_name, String destination_name) {
+
+    }
+
 }
