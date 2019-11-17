@@ -575,4 +575,16 @@ public class APIservice implements ServiceModule {
         return flights;
     }
 
+    private void insertAirlineAdmin(String firstname, String lastname, Integer airline_ID) {
+
+    }
+
+    private void insertAdminLogin(Integer admin_ID, String username, String password) {
+
+    }
+
+    private void insertAirline_flight_info(String flight_name, Integer airline_id, float fare, int flight_max_capacity, int flight_current_capacity) {
+
+    }
+
 }
