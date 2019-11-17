@@ -559,7 +559,6 @@ public class APIservice implements ServiceModule {
     public Set<Flight> getAllFlightsByAirport(String airportName) {
         airportName = "'" + airportName + "'";
         Set<Flight> flights = new LinkedHashSet<>();
-        String current = "'" + LocalDate.now().toString() + "'";
 
         String query = "select flight_info.flight_info_id, airline_flight_info.airline_flight_id,airline_info.airline_id, \n" +
                 "source_name, destination_name, flight_status_info,flight_source_date,\n" +
