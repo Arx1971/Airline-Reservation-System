@@ -566,6 +566,10 @@ public class APIservice implements ServiceModule {
         return flights;
     }
 
+    public Set<Reservation> getAllReservationsMadeUsingSearchEngineAndAirlineGui(String airlineName) {
+        return null;
+    }
+
     private void insertAirlineAdmin(String firstname, String lastname, Integer airline_ID) {
 
     }
