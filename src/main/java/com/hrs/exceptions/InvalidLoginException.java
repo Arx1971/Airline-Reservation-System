@@ -1,10 +1,10 @@
 package com.hrs.exceptions;
 
-public class AirlineReservationSystemException extends Exception
+public class InvalidLoginException extends Exception
 {
     private String message;
     
-    public AirlineReservationSystemException(String message)
+    public InvalidLoginException(String message)
     {
         super(message);
         this.message = message;
@@ -19,6 +19,6 @@ public class AirlineReservationSystemException extends Exception
     @Override
     public String toString()
     {
-        return "AirlineReservationSystemException{" + "message='" + this.message + '\'' + '}';
+        return "InvalidLoginException{" + "message='" + message + '\'' + '}';
     }
 }
