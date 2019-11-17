@@ -2,9 +2,6 @@ package com.hrs.dal.test;
 
 import com.hrs.configs.Configuration;
 import com.hrs.dal.Gateway;
-import com.hrs.exceptions.AirlineReservationSystemException;
-import com.hrs.exceptions.InvalidPasswordException;
-import com.hrs.exceptions.InvalidUserNameException;
 import com.hrs.test.Tester;
 import com.hrs.view.models.*;
 import com.hrs.view.util.FieldValue;
@@ -32,7 +29,7 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public Set<Flight> getAllFlightsByAirline(String airlineName, LocalDate localDate) throws AirlineReservationSystemException {
+    public Set<Flight> getAllFlightsByAirline(String airlineName, LocalDate localDate) {
 
         airlineName = "'" + airlineName + "'";
         String dt = "'" + localDate.toString() + "'";
@@ -200,7 +197,7 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public Customer getCustomerByLogin(String username, String password) throws InvalidUserNameException, InvalidPasswordException {
+    public Customer getCustomerByLogin(String username, String password) {
         Set<Reservation> reservations = new LinkedHashSet<>();
         Set<Flight> flights = new LinkedHashSet<>();
         Customer customer = new Customer();
@@ -274,7 +271,7 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public Admin getGlobalAdminByLogin(String username, String password) throws InvalidUserNameException, InvalidPasswordException {
+    public Admin getGlobalAdminByLogin(String username, String password) {
         username = "'" + username + "'";
         password = "'" + password + "'";
 
@@ -309,7 +306,7 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public Admin getAirlineAdminByLogin(String airline, String username, String password) throws InvalidUserNameException, InvalidPasswordException {
+    public Admin getAirlineAdminByLogin(String airline, String username, String password) {
 
         username = "'" + username + "'";
         password = "'" + password + "'";
@@ -534,8 +531,7 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public boolean makeReservation(Integer flightIdPk, String username, String password)
-            throws InvalidUserNameException, InvalidPasswordException {
+    public boolean makeReservation(Integer flightIdPk, String username, String password) {
         return true;
     }
 
@@ -545,8 +541,7 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public boolean makeReservationBySE(Integer flightIdPk, String username, String password)
-            throws InvalidUserNameException, InvalidPasswordException {
+    public boolean makeReservationBySE(Integer flightIdPk, String username, String password) {
         return true;
     }
 
