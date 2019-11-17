@@ -575,4 +575,64 @@ public class APIservice implements ServiceModule {
         return flights;
     }
 
+    private void insertAirlineAdmin(String firstname, String lastname, Integer airline_ID) {
+
+    }
+
+    private void insertAdminLogin(Integer admin_ID, String username, String password) {
+
+    }
+
+    private void insertAirline_flight_info(String flight_name, Integer airline_id, float fare, int flight_max_capacity, int flight_current_capacity) {
+
+    }
+
+    private void insert_airline_info(String airline_name) {
+    }
+
+    private void insert_airport_info(String airport_name) {
+    }
+
+    private void insert_arrival_info(Integer airport_id, Integer airline_flight_id, Integer flight_status_id) {
+    }
+
+    private void insert_available_flight_id(Integer airline_flight_id, LocalDate localDate) {
+    }
+
+    private void insert_customer_info(String firstname, String lastname, String email) {
+
+    }
+
+    private void insert_customer_login(String username, String password) {
+
+    }
+
+    private void insert_departures_info(Integer airport_id, Integer airline_flight_id, Integer flight_status_id) {
+
+    }
+
+    private void insert_destination_info(Integer airport_id) {
+
+    }
+
+    private void insert_source_info(Integer airport_id) {
+
+    }
+
+    private void insert_flight_info(Integer reservation_id, Integer airline_flight_id, LocalDate sourceDate, LocalDate destination_date, String fly_time, String land_time, String source_name, String destination_name) {
+
+    }
+
+    private void insert_flight_status_info(Integer airline_flight_id, String flight_status) {
+
+    }
+
+    private void insert_reservation_info(Integer customer_id, String reservation_by, LocalDate localDate) {
+
+    }
+
+    private void insert_reservation_status(String res_status) {
+
+    }
+
 }
