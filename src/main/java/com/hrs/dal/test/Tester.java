@@ -1,7 +1,5 @@
 package com.hrs.dal.test;
 
-import com.hrs.dal.Gateway;
-
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -29,6 +27,8 @@ public class Tester {
         System.out.println("getAllFlightsByAirlineForReservation");
         as.getAllFlightsByAirlineForReservation("American Airlines");
         //as.insertNewCustomer("Bubmbble", "Bee", "BumbleBee@email.com", "12345");
+        System.out.println("getAllFlightsByAirport");
+        as.getAllFlightsByAirport("LA");
     }
 
 }
