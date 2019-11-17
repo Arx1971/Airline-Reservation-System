@@ -2,7 +2,7 @@ CREATE TABLE customer_info(
 	customer_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_first_name VARCHAR(30) NOT NULL,
     customer_last_name varchar(30),
-    customer_email varchar(30)
+    customer_email varchar(30) NOT NULL UNIQUE
 );
 
 CREATE TABLE airline_info(
@@ -55,7 +55,7 @@ CREATE TABLE airline_admin(
 CREATE TABLE airline_admin_login(
 	airline_admin_login_id INT PRIMARY KEY AUTO_INCREMENT,
     airline_admin_id INT,
-    admin_username VARCHAR(60) NOT NULL,
+    admin_username VARCHAR(60) NOT NULL UNIQUE,
     admin_password VARCHAR(60) NOT NULL,
     FOREIGN KEY(airline_admin_id) REFERENCES airline_admin(airline_admin_id) ON DELETE CASCADE
 );

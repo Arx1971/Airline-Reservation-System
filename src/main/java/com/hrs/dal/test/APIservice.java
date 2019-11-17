@@ -9,10 +9,7 @@ import com.hrs.test.Tester;
 import com.hrs.view.models.*;
 import com.hrs.view.util.FieldValue;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -521,14 +518,8 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public boolean insertNewCustomer(String firstName, String lastName, String email, String password)
-//            throws IllegalArgumentException, InvalidEmailException
-    {
-        try {
-
-        } catch (Exception ex) {
-
-        }
+    public boolean insertNewCustomer(String firstName, String lastName, String email, String password) {
+        insert_customer_info(firstName, lastName, email, password);
         return true;
     }
 
@@ -599,16 +590,54 @@ public class APIservice implements ServiceModule {
     private void insert_available_flight_id(Integer airline_flight_id, LocalDate localDate) {
     }
 
-    private void insert_customer_info(String firstname, String lastname, String email) {
+    private void insert_customer_info(String firstname, String lastname, String email, String password) {
+        String firstname_1 = "'" + firstname + "'";
+        String lastname_1 = "'" + lastname + "'";
+        String email_1 = "'" + email + "'";
+        String query = "insert into customer_info(customer_first_name, customer_last_name, customer_email) values ( " + firstname_1 + "," + lastname_1 + "," + email_1 + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+            insert_customer_login(email, password, generatedKey);
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(" name is already Taken");
+        }
 
     }
 
-    private void insert_customer_login(String username, String password) {
+    private void insert_customer_login(String username, String password, Integer customer_id) {
 
+        username = "'" + username + "'";
+        password = "'" + password + "'";
+        String query = "insert into customer_login(cust_username, cust_password, customer_id) values( " + username + "," + password + "," + customer_id + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Err");
+        }
     }
 
     private void insert_departures_info(Integer airport_id, Integer airline_flight_id, Integer flight_status_id) {
-
+        String query = "insert into departures_info(airport_id, airline_flight_id, " +
+                "flight_status_id) values( " + airport_id + "," + airline_flight_id + "," + flight_status_id
+                + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Err");
+        }
     }
 
     private void insert_destination_info(Integer airport_id) {
