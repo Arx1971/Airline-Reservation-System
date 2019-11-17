@@ -31,6 +31,7 @@ public class Tester {
         as.getAllAirports();
         System.out.println("getAllFlightsByAirlineForReservation");
         as.getAllFlightsByAirlineForReservation("American Airlines");
+        as.insertNewCustomer("Bubmbble", "Bee", "BumbleBee@email.com", "12345");
     }
 
 }
