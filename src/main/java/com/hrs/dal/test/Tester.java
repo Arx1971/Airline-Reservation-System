@@ -1,7 +1,5 @@
 package com.hrs.dal.test;
 
-import com.hrs.dal.Gateway;
-
 import java.sql.*;
 import java.time.LocalDate;
 
