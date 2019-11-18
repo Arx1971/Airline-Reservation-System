@@ -615,10 +615,45 @@ public class APIservice implements ServiceModule {
 
     private void insertAirlineAdmin(String firstname, String lastname, Integer airline_ID) {
 
+        String firstname_1 = "'" + firstname + "'";
+        String lastname_1 = "'" + lastname + "'";
+
+        String query = "insert into airline_admin(airline_id, airline_admin_fname, airline_admin_lname) values ( " + airline_ID + "," + firstname_1 + "," + lastname_1 + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("");
+        }
+
     }
 
     private void insertAdminLogin(Integer admin_ID, String username, String password) {
+        String query = "insert into airline_admin_login(airline_id, airline_admin_fname, airline_admin_lname) values ( " + admin_ID + "," + username + "," + password + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
 
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("");
+        }
     }
 
     private void insertAirline_flight_info(String flight_name, Integer airline_id, float fare, int flight_max_capacity, int flight_current_capacity) {
