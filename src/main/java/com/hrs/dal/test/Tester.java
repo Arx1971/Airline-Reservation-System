@@ -30,6 +30,7 @@ public class Tester {
         System.out.println("getAllFlightsByAirport");
         as.getAllFlightsByAirport("LA");
         //as.insertAirlineAdmin("Vector", "Prime", 1); // tested
+        as.insert_airline_info("S");
     }
 
 }

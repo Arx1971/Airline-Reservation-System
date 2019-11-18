@@ -685,7 +685,27 @@ public class APIservice implements ServiceModule {
         }
     }
 
-    private void insert_airline_info(String airline_name) {
+    void insert_airline_info(String airline_name) {
+
+        String airline_name_ = "'" + airline_name + "'";
+
+        String query = "insert into airline_info(airline_name) values ( " + airline_name_ + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("");
+        }
+
     }
 
     private void insert_airport_info(String airport_name) {
