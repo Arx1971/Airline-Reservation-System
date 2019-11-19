@@ -732,6 +732,16 @@ public class APIservice implements ServiceModule {
     }
 
     private void insert_arrival_info(Integer airport_id, Integer airline_flight_id, Integer flight_status_id) {
+
+        String query = "insert into arrival_info(airport_id, airline_flight_id, flight_status_id) values(" + airport_id + "," + airline_flight_id + "," + flight_status_id + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Err");
+        }
+
     }
 
     private void insert_available_flight_id(Integer airline_flight_id, LocalDate localDate) {
@@ -809,7 +819,30 @@ public class APIservice implements ServiceModule {
         }
     }
 
-    private void insert_flight_info(Integer reservation_id, Integer airline_flight_id, LocalDate sourceDate, LocalDate destination_date, String fly_time, String land_time, String source_name, String destination_name) {
+    void insert_flight_info(Integer reservation_id, Integer airline_flight_id, LocalDate sourceDate, LocalDate destination_date, String fly_time, String land_time, String source_name, String destination_name) {
+
+        String source = "'" + source_name + "'";
+        String dest = "'" + destination_name + "'";
+        String flyTime = "'" + fly_time + "'";
+        String landTime = "'" + land_time + "'";
+        String sDate = "'" + sourceDate.toString() + "'";
+        String dDate = "'" + destination_date.toString() + "'";
+        String query = "insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flight_dest_date,flight_fly_time,flight_land_time,source_name,destination_name)\n" +
+                "\tvalues( " + reservation_id + "," + airline_flight_id + "," + sDate + "," + dDate + "," + flyTime + "," + landTime + "," + source + "," + dest + ");";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Insert Flight ");
+        }
 
     }
 
