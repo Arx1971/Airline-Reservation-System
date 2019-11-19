@@ -814,7 +814,7 @@ public class APIservice implements ServiceModule {
     }
 
     private void insert_flight_status_info(Integer airline_flight_id, String flight_status) {
-        
+
     }
 
     private void insert_reservation_info(Integer customer_id, String reservation_by, LocalDate localDate) {
