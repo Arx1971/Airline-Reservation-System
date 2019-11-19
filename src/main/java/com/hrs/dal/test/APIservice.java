@@ -613,22 +613,122 @@ public class APIservice implements ServiceModule {
         return null;
     }
 
-    private void insertAirlineAdmin(String firstname, String lastname, Integer airline_ID) {
+    void insertAirlineAdmin(String firstname, String lastname, Integer airline_ID) {
+
+        String firstname_1 = "'" + firstname + "'";
+        String lastname_1 = "'" + lastname + "'";
+
+        String query = "insert into airline_admin(airline_id, airline_admin_fname, airline_admin_lname) values ( " + airline_ID + "," + firstname_1 + "," + lastname_1 + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+
+            insertAdminLogin(generatedKey, firstname + lastname, "12345");
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("AirLine Admin Exist");
+        }
 
     }
 
     private void insertAdminLogin(Integer admin_ID, String username, String password) {
 
+        String username_ = "'" + username + "'";
+        String password_ = "'" + password + "'";
+
+        String query = "insert into airline_admin_login(airline_admin_id, admin_username, admin_password) values ( " + admin_ID + "," + username_ + "," + password_ + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Admin ID Error");
+        }
     }
 
     private void insertAirline_flight_info(String flight_name, Integer airline_id, float fare, int flight_max_capacity, int flight_current_capacity) {
 
+        String flight_name_ = "'" + flight_name + "'";
+
+        String query = "insert into airline_flight_info(airline_flight_name, airline_id, fare, flight_max_capacity, flight_current_capacity)\n" +
+                "\tvalue ( " + flight_name_ + "," + airline_id + "," + fare + "," + flight_max_capacity + "," + flight_current_capacity + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("");
+        }
     }
 
-    private void insert_airline_info(String airline_name) {
+    void insert_airline_info(String airline_name) {
+
+        String airline_name_ = "'" + airline_name + "'";
+
+        String query = "insert into airline_info(airline_name) values ( " + airline_name_ + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("");
+        }
+
     }
 
     private void insert_airport_info(String airport_name) {
+
+        String airport_name_ = "'" + airport_name + "'";
+
+        String query = "insert into airport_info(airport_name) values ( " + airport_name_ + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("");
+        }
+
     }
 
     private void insert_arrival_info(Integer airport_id, Integer airline_flight_id, Integer flight_status_id) {
@@ -688,11 +788,25 @@ public class APIservice implements ServiceModule {
     }
 
     private void insert_destination_info(Integer airport_id) {
-
+        String query = "insert into destination_info(airport_id) values (2);" + airport_id + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Err");
+        }
     }
 
     private void insert_source_info(Integer airport_id) {
-
+        String query = "insert into source_info(airport_id) values (2);" + airport_id + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Err");
+        }
     }
 
     private void insert_flight_info(Integer reservation_id, Integer airline_flight_id, LocalDate sourceDate, LocalDate destination_date, String fly_time, String land_time, String source_name, String destination_name) {

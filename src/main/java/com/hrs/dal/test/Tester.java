@@ -26,9 +26,11 @@ public class Tester {
         as.getAllAirports();
         System.out.println("getAllFlightsByAirlineForReservation");
         as.getAllFlightsByAirlineForReservation("American Airlines");
-        //as.insertNewCustomer("Bubmbble", "Bee", "BumbleBee@email.com", "12345");
+        //as.insertNewCustomer("Bubmbble", "Bee", "BumbleBee@email.com", "12345"); // tested
         System.out.println("getAllFlightsByAirport");
         as.getAllFlightsByAirport("LA");
+        //as.insertAirlineAdmin("Vector", "Prime", 1); // tested
+        //as.insert_airline_info("S");
     }
 
 }
