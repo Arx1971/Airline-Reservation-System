@@ -182,7 +182,7 @@ public class APIservice implements ServiceModule {
                 Airplane airplane = new Airplane(Integer.parseInt(rs.getString("airline_info.airline_id")), rs.getString("airline_flight_name"));
                 Flight flight = new Flight(flightID, flightCode, source, destination, availableSeat, status, airLine, airplane, fare);
 
-                Reservation reservation = new Reservation(reservationID, new Customer(customerID, customerFname, customerLname), flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
+                Reservation reservation = new Reservation(reservationID, null, flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
                 System.out.println(reservation);
                 reservations.add(reservation);
             }

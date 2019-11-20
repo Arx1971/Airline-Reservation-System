@@ -110,7 +110,7 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation{" + "reservationId=" + reservationId + ", customer=" + customer + ", flight=" +
+        return "Reservation{" + "reservationId=" + reservationId + ", flight=" +
                 flight + ", rsvpDate=" + rsvpDate + ", status='" + status + '\'' + ", rsvpBy=" + rsvpBy + '}';
     }
 }
