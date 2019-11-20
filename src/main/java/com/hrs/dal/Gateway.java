@@ -9,7 +9,7 @@ public class Gateway {
 
     // Singleton pattern for jdbc connection
 
-    public static String url= "jdbc:mysql://localhost:3306/AirlineReservationDataBase";
+    private static String url = "jdbc:mysql://localhost:3306/AirlineReservationDataBase";
     private static final String user = "root";
     private static final String pass = "*Codarx1971#";
     private static final String className = "com.mysql.cj.jdbc.Driver";
@@ -22,7 +22,7 @@ public class Gateway {
     private static Connection myDbconnection = null;
 
     public static Connection getDBConnection() throws SQLException {
-        if(null == myDbconnection){
+        if (null == myDbconnection) {
             myDbconnection = getConnection();
         }
         return myDbconnection;

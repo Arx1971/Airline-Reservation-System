@@ -1,19 +1,12 @@
-package com.hrs.dal.test;
+package com.hrs.dal.APImodule;
 
-import com.hrs.configs.Configuration;
 import com.hrs.dal.Gateway;
-import com.hrs.test.Tester;
 import com.hrs.view.models.*;
-import com.hrs.view.util.FieldValue;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
-
-import static com.hrs.test.Tester.*;
-import static com.hrs.test.Tester.STATUS_CANCELED;
 
 
 public class APIservice implements ServiceModule {
@@ -537,6 +530,31 @@ public class APIservice implements ServiceModule {
 
     @Override
     public boolean cancelReservation(Integer customerId, Integer reservationId) {
+
+        String query = "SELECT reservation_status_id \n" +
+                "from customer_info, reservation_info, reservation_status\n" +
+                "where customer_info.customer_id = reservation_info.customer_id and\n" +
+                "reservation_info.reservation_id = reservation_status.reservation_id and\n" +
+                "customer_info.customer_id = " + Integer.toString(customerId) + "\n" +
+                "and reservation_info.reservation_id = " + Integer.toString(reservationId);
+
+        try {
+            Statement statement = this.connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            String res_status_id = new String();
+            while (rs.next()) {
+                res_status_id = rs.getString("reservation_status_id");
+            }
+            String query2 = "Update reservation_status\n" +
+                    "set res_status = 'CANCELLED'\n" +
+                    "where reservation_status_id = " + Integer.parseInt(res_status_id);
+            PreparedStatement ps = connection.prepareStatement(query2,
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+
         return true;
     }
 
