@@ -147,7 +147,7 @@ public class APIservice implements ServiceModule {
 
         Set<Reservation> reservations = new LinkedHashSet<>();
 
-        String query = "select flight_info.flight_info_id, airline_flight_info.airline_flight_id,airline_info.airline_id,\n" +
+        String query = "select customer_info.customer_id,customer_info.customer_first_name,customer_info.customer_last_name, reservation_info.reservation_id, flight_info.flight_info_id, airline_flight_info.airline_flight_id,airline_info.airline_id,\n" +
                 "source_name, destination_name, flight_status_info,flight_source_date, \n" +
                 "flight_dest_date,flight_max_capacity,flight_current_capacity,fare,airline_name,\n" +
                 "airline_flight_name, flight_fly_time, flight_land_time, res_status, reservation_by, reservation_date\n" +
@@ -171,6 +171,10 @@ public class APIservice implements ServiceModule {
                 throw new IllegalArgumentException("Id Not Found");
             }
             while (rs.next()) {
+                Integer reservationID = Integer.parseInt(rs.getString("reservation_info.reservation_id"));
+                Integer customerID = Integer.parseInt(rs.getString("customer_info.customer_id"));
+                String customerFname = rs.getString("customer_info.customer_first_name");
+                String customerLname = rs.getString("customer_info.customer_last_name");
                 Integer flightID = Integer.parseInt(rs.getString("flight_info.flight_info_id"));
                 String flightCode = Integer.toString(rs.getString("airline_flight_name").hashCode());
                 LocalDate sourceDate = LocalDate.parse(rs.getString("flight_source_date"));
@@ -185,7 +189,7 @@ public class APIservice implements ServiceModule {
                 Airplane airplane = new Airplane(Integer.parseInt(rs.getString("airline_info.airline_id")), rs.getString("airline_flight_name"));
                 Flight flight = new Flight(flightID, flightCode, source, destination, availableSeat, status, airLine, airplane, fare);
 
-                Reservation reservation = new Reservation(flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
+                Reservation reservation = new Reservation(reservationID, new Customer(customerID, customerFname, customerLname), flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
                 System.out.println(reservation);
                 reservations.add(reservation);
             }
@@ -349,8 +353,8 @@ public class APIservice implements ServiceModule {
     public Set<Reservation> getGlobalReservationsMadeUsingSearchEngine() {
         Set<Reservation> reservations = new LinkedHashSet<>();
 
-        String query = "select flight_info.flight_info_id, airline_flight_info.airline_flight_id,airline_info.airline_id,\n" +
-                "source_name, destination_name, flight_status_info,flight_source_date, \n" +
+        String query = "select customer_info.customer_id,customer_info.customer_first_name,customer_info.customer_last_name, reservation_info.reservation_id, flight_info_id, airline_flight_info.airline_flight_id,airline_info.airline_id,\n" +
+                "source_name, destination_name, flight_status_info,flight_source_date,\n" +
                 "flight_dest_date,flight_max_capacity,flight_current_capacity,fare,airline_name,\n" +
                 "airline_flight_name, flight_fly_time, flight_land_time, res_status, reservation_by, reservation_date\n" +
                 "from flight_info, airline_info, airline_flight_info, flight_status, customer_info, reservation_status, reservation_info\n" +
@@ -359,7 +363,8 @@ public class APIservice implements ServiceModule {
                 "flight_status.airline_flight_id = airline_flight_info.airline_flight_id and\n" +
                 "reservation_info.reservation_id = reservation_status.reservation_id and\n" +
                 "reservation_info.reservation_id = flight_info.reservation_id and\n" +
-                "reservation_by = 0";
+                "reservation_by = 0 and\n" +
+                "customer_info.customer_id = reservation_info.customer_id ";
         try {
             Statement statement = this.connection.createStatement();
             ResultSet rs = statement.executeQuery(query);
@@ -372,6 +377,10 @@ public class APIservice implements ServiceModule {
                 throw new IllegalArgumentException("Id Not Found");
             }
             while (rs.next()) {
+                Integer customerID = Integer.parseInt(rs.getString("customer_info.customer_id"));
+                String customerFname = rs.getString("customer_info.customer_first_name");
+                String customerlname = rs.getString("customer_info.customer_last_name");
+                Integer reservationID = Integer.parseInt(rs.getString("reservation_info.reservation_id"));
                 Integer flightID = Integer.parseInt(rs.getString("flight_info.flight_info_id"));
                 String flightCode = Integer.toString(rs.getString("airline_flight_name").hashCode());
                 LocalDate sourceDate = LocalDate.parse(rs.getString("flight_source_date"));
@@ -386,7 +395,7 @@ public class APIservice implements ServiceModule {
                 Airplane airplane = new Airplane(Integer.parseInt(rs.getString("airline_info.airline_id")), rs.getString("airline_flight_name"));
                 Flight flight = new Flight(flightID, flightCode, source, destination, availableSeat, status, airLine, airplane, fare);
 
-                Reservation reservation = new Reservation(flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
+                Reservation reservation = new Reservation(reservationID, new Customer(customerID, customerFname, customerlname), flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
                 System.out.println(reservation);
                 reservations.add(reservation);
             }
@@ -832,9 +841,7 @@ public class APIservice implements ServiceModule {
         try {
             PreparedStatement ps = connection.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
-
             ps.execute();
-
             ResultSet rs = ps.getGeneratedKeys();
             int generatedKey = 0;
             if (rs.next()) {
@@ -848,14 +855,55 @@ public class APIservice implements ServiceModule {
 
     private void insert_flight_status_info(Integer airline_flight_id, String flight_status) {
 
+        String query = "insert into flight_status(airline_flight_id,flight_status_info) values ( " + airline_flight_id + "," + flight_status + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Err");
+        }
+
     }
 
-    private void insert_reservation_info(Integer customer_id, String reservation_by, LocalDate localDate) {
+    private void insert_reservation_info(Integer customer_id, String reservation_by, LocalDate localDate, String status) {
+
+        String date = "'" + localDate.toString() + "'";
+        String rvb = "'" + reservation_by + "'";
+        String query = "insert into reservation_info(customer_id, reservation_by, reservation_date) values( " + customer_id + "," + rvb + "," + rvb + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+
+            insert_reservation_status(1, status);
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Reservation Info");
+        }
 
     }
 
-    private void insert_reservation_status(String res_status) {
-
+    private void insert_reservation_status(Integer reservation_id, String res_status) {
+        String res_status_ = "'" + res_status + "'";
+        String query = "INSERT INTO reservation_status(reservation_id, res_status) VALUES ( " + reservation_id + "," + res_status_ + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Reservation Status");
+        }
     }
 
 }
