@@ -87,13 +87,13 @@ insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flig
 insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flight_dest_date,flight_fly_time,flight_land_time,source_name,destination_name)
 	values(3,1,'2018-12-04','2018-12-08','03:00:00', '05:00:00','LA' , 'TEXAS');
 insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flight_dest_date,flight_fly_time,flight_land_time,source_name,destination_name)
-	values(1,2,'2019-09-12','2019-09-18','04:00:00', '11:00:00','JFK' , 'NEWARK');
+	values(5,2,'2019-09-12','2019-09-18','04:00:00', '11:00:00','JFK' , 'NEWARK');
 insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flight_dest_date,flight_fly_time,flight_land_time,source_name,destination_name)
 	values(8,3,'2017-12-16','2017-12-08','06:00:00','11:00:00','NEWARK' , 'LGA');
 insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flight_dest_date,flight_fly_time,flight_land_time,source_name,destination_name)
-	values(9,5,'2019-11-10','2019-11-18','10:00:00', '13:00:00','GEORGIA' , 'BOSTON');
+	values(6,5,'2019-11-10','2019-11-18','10:00:00', '13:00:00','GEORGIA' , 'BOSTON');
 insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flight_dest_date,flight_fly_time,flight_land_time,source_name,destination_name)
-	values(4,6,'2015-01-03','2015-01-08','12:00:00', '19:00:00','LA' , 'MI');
+	values(7,6,'2015-01-03','2015-01-08','12:00:00', '19:00:00','LA' , 'MI');
 insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flight_dest_date,flight_fly_time,flight_land_time,source_name,destination_name)
 	values(2,5,'2014-02-01','2014-02-08','23:00:00', '01:00:00','ATLANTA' , 'LA');
 insert into flight_info(reservation_id,airline_flight_id,flight_source_date,flight_dest_date,flight_fly_time,flight_land_time,source_name,destination_name)

@@ -31,6 +31,7 @@ public class Tester {
         as.getAllFlightsByAirport("LA");
         //as.insertAirlineAdmin("Vector", "Prime", 1); // tested
         //as.insert_airline_info("S");
+        //as.insert_flight_info(1, 2, LocalDate.of(2018, 12, 31), LocalDate.of(2018, 12, 31), "12:00:00", "02:00:00", "NY", "BOSTON");
     }
 
 }
