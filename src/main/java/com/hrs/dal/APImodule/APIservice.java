@@ -1,6 +1,8 @@
 package com.hrs.dal.APImodule;
 
 import com.hrs.dal.Gateway;
+import com.hrs.exceptions.IllegalArgumentException;
+import com.hrs.exceptions.InvalidLoginException;
 import com.hrs.view.models.*;
 
 import java.sql.*;
@@ -10,7 +12,6 @@ import java.util.Set;
 
 
 public class APIservice implements ServiceModule {
-
     private Connection connection;
 
     public APIservice() {
@@ -46,7 +47,7 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("Airline Name Not Found");
+                throw new java.lang.IllegalArgumentException("Airline Name Not Found");
             }
 
             while (rs.next()) {
@@ -76,7 +77,7 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public Set<Flight> getAllFlightsForReservation() {
+    public Set<Flight> getAllFlightsForReservation(String str) {
         /*
          * @this query will show you all the current available flights, before you showed it to customer screen, make
          * sure check the given date.
@@ -106,7 +107,7 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("No Result Found");
+                throw new java.lang.IllegalArgumentException("No Result Found");
             }
 
             while (rs.next()) {
@@ -161,7 +162,7 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("Id Not Found");
+                throw new java.lang.IllegalArgumentException("Id Not Found");
             }
             while (rs.next()) {
                 Integer reservationID = Integer.parseInt(rs.getString("reservation_info.reservation_id"));
@@ -182,7 +183,7 @@ public class APIservice implements ServiceModule {
                 Airplane airplane = new Airplane(Integer.parseInt(rs.getString("airline_info.airline_id")), rs.getString("airline_flight_name"));
                 Flight flight = new Flight(flightID, flightCode, source, destination, availableSeat, status, airLine, airplane, fare);
 
-                Reservation reservation = new Reservation(reservationID, new Customer(customerID, customerFname, customerLname), flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
+                Reservation reservation = new Reservation(reservationID, null, flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
                 System.out.println(reservation);
                 reservations.add(reservation);
             }
@@ -217,7 +218,7 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("Customer Not Found");
+                throw new java.lang.IllegalArgumentException("Customer Not Found");
             }
             while (rs.next()) {
                 id = Integer.parseInt(rs.getString("customer_info.customer_id"));
@@ -287,7 +288,7 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("Admin Not Found");
+                throw new java.lang.IllegalArgumentException("Admin Not Found");
             }
 
             while (rs.next()) {
@@ -327,11 +328,11 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("Admin Not Found");
+                throw new java.lang.IllegalArgumentException("Admin Not Found");
             }
 
             while (rs.next()) {
-                admin = new Admin(rs.getString("airline_admin_fname"), rs.getString("admin_username"), new Login(rs.getString("admin_username"), rs.getString("admin_password")));
+                admin = new Admin(rs.getString("airline_admin_fname"), rs.getString("airline_admin_lname"), new Login(rs.getString("admin_username"), rs.getString("admin_password")));
             }
             System.out.println(admin);
 
@@ -370,7 +371,7 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("Id Not Found");
+                throw new java.lang.IllegalArgumentException("Id Not Found");
             }
             while (rs.next()) {
                 Integer customerID = Integer.parseInt(rs.getString("customer_info.customer_id"));
@@ -392,16 +393,16 @@ public class APIservice implements ServiceModule {
                 Airline airLine = new Airline(Integer.parseInt(rs.getString("airline_flight_info.airline_flight_id")), rs.getString("airline_name"));
                 Airplane airplane = new Airplane(Integer.parseInt(rs.getString("airline_info.airline_id")), rs.getString("airline_flight_name"));
                 Flight flight = new Flight(flightID, flightCode, source, destination, availableSeat, status, airLine, airplane, fare);
-                Set<Reservation> custReservation = getAllReservationsByCustomerId(customerID);
+                //Set<Reservation> custReservation = getAllReservationsByCustomerId(customerID);
 
-                Reservation reservation = new Reservation(reservationID, new Customer(customerID, customerFname, customerlname, new Login(custusername, custpassword), custReservation, null), flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
+                Reservation reservation = new Reservation(reservationID, null, flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
                 System.out.println(reservation);
                 reservations.add(reservation);
             }
         } catch (SQLException e) {
 
         }
-        System.out.println(reservations);
+
         return reservations;
     }
 
@@ -422,7 +423,7 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("Airline Name has No Airplane");
+                throw new java.lang.IllegalArgumentException("Airline Name has No Airplane");
             }
             while (rs.next()) {
                 Airplane airplane = new Airplane(Integer.parseInt(rs.getString("airline_flight_id")), rs.getString("airline_flight_name"));
@@ -451,7 +452,7 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("No Airport Found");
+                throw new java.lang.IllegalArgumentException("No Airport Found");
             }
             while (rs.next()) {
                 Airport airport = new Airport(Integer.parseInt(rs.getString("airport_id")), rs.getString("airport_name"));
@@ -493,7 +494,7 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("No Result Found");
+                throw new java.lang.IllegalArgumentException("No Result Found");
             }
 
             while (rs.next()) {
@@ -552,7 +553,7 @@ public class APIservice implements ServiceModule {
                     Statement.RETURN_GENERATED_KEYS);
             ps.execute();
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new java.lang.IllegalArgumentException(e.getMessage());
         }
 
         return true;
@@ -574,13 +575,13 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public boolean makeReservationBySE(Integer flightIdPk, String username, String password) {
-        return true;
+    public boolean makeReservationBySearchEngine(Integer flightIdPk, String username, String password) throws InvalidLoginException {
+        return false;
     }
 
     @Override
-    public boolean makeReservationBySE(Integer flightIdPk, Integer customerId) {
-        return true;
+    public boolean makeReservationBySearchEngine(Integer flightIdPk, Integer customerId) {
+        return false;
     }
 
     @Override
@@ -613,7 +614,7 @@ public class APIservice implements ServiceModule {
                 rs.beforeFirst();
             }
             if (rowcount == 0) {
-                throw new IllegalArgumentException("No Result Found");
+                throw new java.lang.IllegalArgumentException("No Result Found");
             }
 
             while (rs.next()) {
@@ -667,7 +668,7 @@ public class APIservice implements ServiceModule {
             insertAdminLogin(generatedKey, firstname + lastname, "12345");
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("AirLine Admin Exist");
+            throw new java.lang.IllegalArgumentException("AirLine Admin Exist");
         }
 
     }
@@ -691,7 +692,7 @@ public class APIservice implements ServiceModule {
             }
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Admin ID Error");
+            throw new java.lang.IllegalArgumentException("Admin ID Error");
         }
     }
 
@@ -714,7 +715,7 @@ public class APIservice implements ServiceModule {
             }
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("");
+            throw new java.lang.IllegalArgumentException("");
         }
     }
 
@@ -736,7 +737,7 @@ public class APIservice implements ServiceModule {
             }
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("");
+            throw new java.lang.IllegalArgumentException("");
         }
 
     }
@@ -759,7 +760,7 @@ public class APIservice implements ServiceModule {
             }
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("");
+            throw new java.lang.IllegalArgumentException("");
         }
 
     }
@@ -772,7 +773,7 @@ public class APIservice implements ServiceModule {
                     Statement.RETURN_GENERATED_KEYS);
             ps.execute();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Err");
+            throw new java.lang.IllegalArgumentException("Err");
         }
 
     }
@@ -798,7 +799,7 @@ public class APIservice implements ServiceModule {
             }
             insert_customer_login(email, password, generatedKey);
         } catch (SQLException e) {
-            throw new IllegalArgumentException(" name is already Taken");
+            throw new java.lang.IllegalArgumentException(" name is already Taken");
         }
 
     }
@@ -813,7 +814,7 @@ public class APIservice implements ServiceModule {
                     Statement.RETURN_GENERATED_KEYS);
             ps.execute();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Err");
+            throw new java.lang.IllegalArgumentException("Err");
         }
     }
 
@@ -826,7 +827,7 @@ public class APIservice implements ServiceModule {
                     Statement.RETURN_GENERATED_KEYS);
             ps.execute();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Err");
+            throw new java.lang.IllegalArgumentException("Err");
         }
     }
 
@@ -837,7 +838,7 @@ public class APIservice implements ServiceModule {
                     Statement.RETURN_GENERATED_KEYS);
             ps.execute();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Err");
+            throw new java.lang.IllegalArgumentException("Err");
         }
     }
 
@@ -848,7 +849,7 @@ public class APIservice implements ServiceModule {
                     Statement.RETURN_GENERATED_KEYS);
             ps.execute();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Err");
+            throw new java.lang.IllegalArgumentException("Err");
         }
     }
 
@@ -872,7 +873,7 @@ public class APIservice implements ServiceModule {
                 generatedKey = rs.getInt(1);
             }
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Insert Flight ");
+            throw new java.lang.IllegalArgumentException("Insert Flight ");
         }
 
     }
@@ -885,12 +886,12 @@ public class APIservice implements ServiceModule {
                     Statement.RETURN_GENERATED_KEYS);
             ps.execute();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Err");
+            throw new java.lang.IllegalArgumentException("Err");
         }
 
     }
 
-    private void insert_reservation_info(Integer customer_id, String reservation_by, LocalDate localDate, String status) {
+    private void insert_reservation_info(Integer customer_id, String reservation_by, LocalDate localDate, String status) throws IllegalArgumentException {
 
         String date = "'" + localDate.toString() + "'";
         String rvb = "'" + reservation_by + "'";
@@ -908,12 +909,12 @@ public class APIservice implements ServiceModule {
             insert_reservation_status(1, status);
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Reservation Info");
+            throw new java.lang.IllegalArgumentException("Reservation Info");
         }
 
     }
 
-    private void insert_reservation_status(Integer reservation_id, String res_status) {
+    private void insert_reservation_status(Integer reservation_id, String res_status) throws IllegalArgumentException {
         String res_status_ = "'" + res_status + "'";
         String query = "INSERT INTO reservation_status(reservation_id, res_status) VALUES ( " + reservation_id + "," + res_status_ + ")";
         try {
@@ -929,5 +930,5 @@ public class APIservice implements ServiceModule {
             throw new IllegalArgumentException("Reservation Status");
         }
     }
-
 }
+
