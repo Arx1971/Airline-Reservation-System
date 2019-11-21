@@ -43,6 +43,7 @@ public class Tester {
         //as.getAllAirPlaneByAirLine("American Airlines");
         //as.getAllAirports();
         //as.getAllFlightsByAirlineForReservation("American Airlines");
+        as.getAllReservationsMadeUsingSearchEngineAndAirlineGui("American Airlines");
     }
 
 }

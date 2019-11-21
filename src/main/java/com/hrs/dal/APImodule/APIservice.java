@@ -644,7 +644,65 @@ public class APIservice implements ServiceModule {
     }
 
     public Set<Reservation> getAllReservationsMadeUsingSearchEngineAndAirlineGui(String airlineName) {
-        return null;
+        Set<Reservation> reservations = new LinkedHashSet<>();
+        String aln = "'" + airlineName + "'";
+        String query = "select cust_username, cust_password, customer_info.customer_id," +
+                "customer_info.customer_first_name,customer_info.customer_last_name, " +
+                "reservation_info.reservation_id, flight_info_id, airline_flight_info.airline_flight_id,airline_info.airline_id,\n" +
+                "source_name, destination_name, flight_status_info,flight_source_date,\n" +
+                "flight_dest_date,flight_max_capacity,flight_current_capacity,fare,airline_name,\n" +
+                "airline_flight_name, flight_fly_time, flight_land_time, res_status, reservation_by, reservation_date\n" +
+                "from customer_login, flight_info, airline_info, airline_flight_info, flight_status, customer_info, reservation_status, reservation_info\n" +
+                "where flight_info.airline_flight_id = airline_flight_info.airline_flight_id and\n" +
+                "airline_flight_info.airline_id = airline_info.airline_id and\n" +
+                "flight_status.airline_flight_id = airline_flight_info.airline_flight_id and\n" +
+                "reservation_info.reservation_id = reservation_status.reservation_id and\n" +
+                "reservation_info.reservation_id = flight_info.reservation_id and\n" +
+                "reservation_by = 0 and\n" +
+                "customer_info.customer_id = reservation_info.customer_id and\n" +
+                "customer_info.customer_id = customer_login.customer_id and airline_name = " + aln;
+        try {
+            Statement statement = this.connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            int rowcount = 0;
+            if (rs.last()) {
+                rowcount = rs.getRow();
+                rs.beforeFirst();
+            }
+            if (rowcount == 0) {
+                throw new java.lang.IllegalArgumentException("Id Not Found");
+            }
+            while (rs.next()) {
+                Integer customerID = Integer.parseInt(rs.getString("customer_info.customer_id"));
+                String customerFname = rs.getString("customer_info.customer_first_name");
+                String customerlname = rs.getString("customer_info.customer_last_name");
+                String custusername = rs.getString("cust_username");
+                String custpassword = rs.getString("cust_password");
+                Integer reservationID = Integer.parseInt(rs.getString("reservation_info.reservation_id"));
+                Integer flightID = Integer.parseInt(rs.getString("flight_info.flight_info_id"));
+                String flightCode = Integer.toString(rs.getString("airline_flight_name").hashCode());
+                LocalDate sourceDate = LocalDate.parse(rs.getString("flight_source_date"));
+                Source source = new Source(rs.getString("source_name"), sourceDate, rs.getString("flight_fly_time"));
+                LocalDate destinationDate = LocalDate.parse(rs.getString("flight_dest_date"));
+                Destination destination = new Destination(rs.getString("destination_name"), destinationDate, rs.getString("flight_land_time"));
+                Integer capacity = Integer.parseInt(rs.getString("flight_max_capacity"));
+                Integer availableSeat = capacity - Integer.parseInt(rs.getString("flight_current_capacity"));
+                Float fare = Float.parseFloat(rs.getString("fare"));
+                String status = rs.getString("flight_status_info");
+                Airline airLine = new Airline(Integer.parseInt(rs.getString("airline_flight_info.airline_flight_id")), rs.getString("airline_name"));
+                Airplane airplane = new Airplane(Integer.parseInt(rs.getString("airline_info.airline_id")), rs.getString("airline_flight_name"));
+                Flight flight = new Flight(flightID, flightCode, source, destination, availableSeat, status, airLine, airplane, fare);
+                //Set<Reservation> custReservation = getAllReservationsByCustomerId(customerID);
+
+                Reservation reservation = new Reservation(reservationID, null, flight, LocalDate.parse(rs.getString("reservation_date")), rs.getString("res_status"), Integer.parseInt(rs.getString("reservation_by")));
+                System.out.println(reservation);
+                reservations.add(reservation);
+            }
+        } catch (SQLException e) {
+
+        }
+
+        return reservations;
     }
 
     void insertAirlineAdmin(String firstname, String lastname, Integer airline_ID) {
