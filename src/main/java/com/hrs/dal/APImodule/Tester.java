@@ -13,13 +13,13 @@ public class Tester {
 //        System.out.println("Flight For Reservation: \n");
 //        as.getAllFlightsForReservation();
 //        System.out.println("Reservation By Customer ID: ");
-            as.getAllReservationsByCustomerId(3);
+        //    as.getAllReservationsByCustomerId(3);
 //        System.out.println("LOGIN INFORMATION BY CUSTOMER: USERNAME AND PASSWORD");
 //        as.getCustomerByLogin("megatron@email.com", "12345");
 //        as.getGlobalAdminByLogin("delta1234", "12345");
 //        as.getAirlineAdminByLogin("Delta", "Jetblue1234", "12345");
         /*System.out.println("getGlobalReservationsMadeUsingSearchEngine");
-        as.getGlobalReservationsMadeUsingSearchEngine();
+
         System.out.println("getAllAirPlaneByAirLine");
         as.getAllAirPlaneByAirLine("American Airlines");
         System.out.println("AIRPORTS NAME");
@@ -34,7 +34,15 @@ public class Tester {
         //as.insert_flight_info(1, 2, LocalDate.of(2018, 12, 31), LocalDate.of(2018, 12, 31), "12:00:00", "02:00:00", "NY", "BOSTON");
 
         //as.cancelReservation(1, 1);
-
+        //as.getGlobalReservationsMadeUsingSearchEngine();
+        //as.getAllFlightsByAirline("American Airlines", localDate);
+        //as.getAllFlightsForReservation("str");
+        //as.getCustomerByLogin("megatron@email.com", "12345");
+        //as.getGlobalAdminByLogin("delta1234", "12345");
+        //as.getAirlineAdminByLogin("American Airlines", "delta1234", "12345");
+        //as.getAllAirPlaneByAirLine("American Airlines");
+        //as.getAllAirports();
+        //as.getAllFlightsByAirlineForReservation("American Airlines");
     }
 
 }
