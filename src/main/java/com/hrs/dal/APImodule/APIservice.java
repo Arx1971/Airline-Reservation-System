@@ -374,11 +374,11 @@ public class APIservice implements ServiceModule {
                 throw new java.lang.IllegalArgumentException("Id Not Found");
             }
             while (rs.next()) {
-                Integer customerID = Integer.parseInt(rs.getString("customer_info.customer_id"));
+                /*Integer customerID = Integer.parseInt(rs.getString("customer_info.customer_id"));
                 String customerFname = rs.getString("customer_info.customer_first_name");
                 String customerlname = rs.getString("customer_info.customer_last_name");
                 String custusername = rs.getString("cust_username");
-                String custpassword = rs.getString("cust_password");
+                String custpassword = rs.getString("cust_password");*/
                 Integer reservationID = Integer.parseInt(rs.getString("reservation_info.reservation_id"));
                 Integer flightID = Integer.parseInt(rs.getString("flight_info.flight_info_id"));
                 String flightCode = Integer.toString(rs.getString("airline_flight_name").hashCode());
@@ -561,6 +561,35 @@ public class APIservice implements ServiceModule {
 
     @Override
     public boolean cancelFlight(Integer flightId) {
+        String status = "'" + "CANCELLED" + "'";
+        String query = "update flight_status\n" +
+                "set flight_status_info = " + status + " " +
+                "where airline_flight_id = " + Integer.toString(flightId);
+        String query2 = "select reservation_status.reservation_status_id, res_status\n" +
+                "from reservation_status, reservation_info, flight_info\n" +
+                "where reservation_status.reservation_id = reservation_info.reservation_id and\n" +
+                "flight_info.reservation_id = reservation_info.reservation_id and\n" +
+                "flight_info.airline_flight_id = " + Integer.toString(flightId);
+        try {
+            PreparedStatement ps = connection.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+            Statement statement = this.connection.createStatement();
+            ResultSet rs = statement.executeQuery(query2);
+            String query3 = new String();
+            while (rs.next()) {
+                Integer res_status_id = Integer.parseInt(rs.getString("reservation_status.reservation_status_id"));
+                query3 = "update reservation_status\n" +
+                        "set res_status = " + status + " " +
+                        "where reservation_status_id = " + Integer.toString(res_status_id);
+                ps = connection.prepareStatement(query3,
+                        Statement.RETURN_GENERATED_KEYS);
+                ps.execute();
+            }
+        } catch (SQLException e) {
+            throw new java.lang.IllegalArgumentException(e.getMessage());
+        }
+
         return true;
     }
 
