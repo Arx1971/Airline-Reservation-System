@@ -12,7 +12,7 @@ CREATE TABLE airline_info(
 
 CREATE TABLE airport_info(
 	airport_id INT PRIMARY KEY AUTO_INCREMENT,
-    airport_name VARCHAR(30) NOT NULL
+    airport_name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE source_info(
@@ -117,8 +117,8 @@ CREATE TABLE flight_info(
     flight_dest_date DATE NOT NULL,
     flight_fly_time TIME NOT NULL,
     flight_land_time TIME NOT NULL,
-    source_name VARCHAR(60),
-    destination_name VARCHAR(60),
+    source_name VARCHAR(100),
+    destination_name VARCHAR(100),
     FOREIGN KEY (reservation_id) REFERENCES reservation_info(reservation_id) ON DELETE CASCADE,
     FOREIGN KEY (airline_flight_id) REFERENCES airline_flight_info(airline_flight_id) ON DELETE CASCADE
 );
