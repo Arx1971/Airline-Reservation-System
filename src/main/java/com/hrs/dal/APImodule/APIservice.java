@@ -679,7 +679,7 @@ public class APIservice implements ServiceModule {
     }
 
     @Override
-    public boolean makeReservationBySearchEngine(Integer flightIdPk, String username, String password) throws InvalidLoginException {
+    public boolean makeReservationBySearchEngine(Integer flightIdPk, String username, String password) {
         String user_name = "'" + username + "'";
         String pass_word = "'" + password + "'";
         String current_date = "'" + LocalDate.now().toString() + "'";
