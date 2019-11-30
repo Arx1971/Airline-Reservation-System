@@ -611,8 +611,8 @@ public class APIservice implements ServiceModule {
             while (rs.next()) {
                 customer_id = Integer.parseInt(rs.getString("customer_info.customer_id"));
             }
-            System.out.println(customer_id);
-        } catch (SQLException e) {
+            insert_reservation_info(customer_id, "1", LocalDate.now());
+        } catch (SQLException | IllegalArgumentException e) {
             throw new java.lang.IllegalArgumentException(e.getMessage());
         }
         return true;
@@ -998,7 +998,7 @@ public class APIservice implements ServiceModule {
 
     }
 
-    private void insert_reservation_info(Integer customer_id, String reservation_by, LocalDate localDate, String status) throws IllegalArgumentException {
+    private void insert_reservation_info(Integer customer_id, String reservation_by, LocalDate localDate) throws IllegalArgumentException {
 
         String date = "'" + localDate.toString() + "'";
         String rvb = "'" + reservation_by + "'";
@@ -1013,7 +1013,7 @@ public class APIservice implements ServiceModule {
                 generatedKey = rs.getInt(1);
             }
 
-            insert_reservation_status(1, status);
+            insert_reservation_status(generatedKey, "ACTIVE");
 
         } catch (SQLException e) {
             throw new java.lang.IllegalArgumentException("Reservation Info");
