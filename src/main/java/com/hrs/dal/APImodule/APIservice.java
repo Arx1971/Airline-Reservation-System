@@ -595,6 +595,26 @@ public class APIservice implements ServiceModule {
 
     @Override
     public boolean makeReservation(Integer flightIdPk, String username, String password) {
+        String user_name = "'" + username + "'";
+        String pass_word = "'" + password + "'";
+
+        String customer_id_select = "select customer_info.customer_id\n" +
+                "from customer_info, customer_login\n" +
+                "where cust_username = " + user_name + " and\n" +
+                "cust_password = " + pass_word + " and\n" +
+                "customer_info.customer_id = customer_login.customer_id";
+
+        try {
+            Statement statement = this.connection.createStatement();
+            ResultSet rs = statement.executeQuery(customer_id_select);
+            Integer customer_id = -1;
+            while (rs.next()) {
+                customer_id = Integer.parseInt(rs.getString("customer_info.customer_id"));
+            }
+            System.out.println(customer_id);
+        } catch (SQLException e) {
+            throw new java.lang.IllegalArgumentException(e.getMessage());
+        }
         return true;
     }
 

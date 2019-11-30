@@ -43,7 +43,8 @@ public class Tester {
         //as.getAllAirports();
         //as.getAllFlightsByAirlineForReservation("American Airlines");
         //as.getAllReservationsMadeUsingSearchEngineAndAirlineGui("American Airlines");
-        as.cancelFlight(2);
+        //as.cancelFlight(2);
+        as.makeReservation(1, "megatron@email.com", "12345");
     }
 
 }
