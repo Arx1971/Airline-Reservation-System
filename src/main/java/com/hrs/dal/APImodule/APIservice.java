@@ -597,21 +597,51 @@ public class APIservice implements ServiceModule {
     public boolean makeReservation(Integer flightIdPk, String username, String password) {
         String user_name = "'" + username + "'";
         String pass_word = "'" + password + "'";
-
+        String current_date = "'" + LocalDate.now().toString() + "'";
+        Integer reservation_id = -1;
+        Integer customer_id = -1;
         String customer_id_select = "select customer_info.customer_id\n" +
                 "from customer_info, customer_login\n" +
                 "where cust_username = " + user_name + " and\n" +
                 "cust_password = " + pass_word + " and\n" +
                 "customer_info.customer_id = customer_login.customer_id";
-
+        String flight_select = "select flight_source_date,flight_dest_date,flight_fly_time,flight_land_time,source_name,destination_name\n" +
+                "from flight_info, airline_flight_info\n" +
+                "where airline_flight_info.airline_flight_id = flight_info.airline_flight_id and\n" +
+                "airline_flight_info.airline_flight_id = " + flightIdPk.toString() + " and\n" +
+                "flight_source_date > " + current_date;
         try {
             Statement statement = this.connection.createStatement();
             ResultSet rs = statement.executeQuery(customer_id_select);
-            Integer customer_id = -1;
+
             while (rs.next()) {
                 customer_id = Integer.parseInt(rs.getString("customer_info.customer_id"));
             }
-            insert_reservation_info(customer_id, "1", LocalDate.now());
+            reservation_id = insert_reservation_info(customer_id, "1", LocalDate.now());
+            rs = statement.executeQuery(flight_select);
+            LocalDate sourceDate = LocalDate.now();
+            LocalDate destDate = LocalDate.now();
+            String src = "";
+            String dest = "";
+            String fly_time = "";
+            String land_time = "";
+
+            while (rs.next()) {
+                sourceDate = LocalDate.parse(rs.getString("flight_source_date"));
+                destDate = LocalDate.parse(rs.getString("flight_dest_date"));
+                fly_time = rs.getString("flight_fly_time");
+                land_time = rs.getString("flight_land_time");
+                src = rs.getString("source_name");
+                dest = rs.getString("destination_name");
+                System.out.println(rs.getString("flight_source_date") + " " + rs.getString("flight_dest_date") + " " +
+                        rs.getString("flight_fly_time") + " " +
+                        rs.getString("flight_land_time") + " " + rs.getString("source_name") + " "
+                        + rs.getString("destination_name") + " "
+                );
+            }
+            System.out.println(reservation_id + " " + flightIdPk);
+            insert_flight_info(reservation_id, flightIdPk, sourceDate, destDate, fly_time, land_time, src, dest);
+
         } catch (SQLException | IllegalArgumentException e) {
             throw new java.lang.IllegalArgumentException(e.getMessage());
         }
@@ -998,11 +1028,12 @@ public class APIservice implements ServiceModule {
 
     }
 
-    private void insert_reservation_info(Integer customer_id, String reservation_by, LocalDate localDate) throws IllegalArgumentException {
+    private int insert_reservation_info(Integer customer_id, String reservation_by, LocalDate localDate) throws IllegalArgumentException {
 
         String date = "'" + localDate.toString() + "'";
         String rvb = "'" + reservation_by + "'";
         String query = "insert into reservation_info(customer_id, reservation_by, reservation_date) values( " + customer_id + "," + rvb + "," + date + ")";
+        int reservation_key = -1;
         try {
             PreparedStatement ps = connection.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
@@ -1012,13 +1043,14 @@ public class APIservice implements ServiceModule {
             if (rs.next()) {
                 generatedKey = rs.getInt(1);
             }
-
+            reservation_key = generatedKey;
             insert_reservation_status(generatedKey, "ACTIVE");
 
         } catch (SQLException e) {
             throw new java.lang.IllegalArgumentException("Reservation Info");
         }
 
+        return reservation_key;
     }
 
     private void insert_reservation_status(Integer reservation_id, String res_status) throws IllegalArgumentException {
