@@ -44,8 +44,9 @@ public class Tester {
         //as.getAllFlightsByAirlineForReservation("American Airlines");
         //as.getAllReservationsMadeUsingSearchEngineAndAirlineGui("American Airlines");
         //as.cancelFlight(2);
-        as.makeReservation(3, "megatron@email.com", "12345");
+        //as.makeReservation(3, "megatron@email.com", "12345");
         //as.insert_flight_info(1, 2, LocalDate.of(2018, 12, 31), LocalDate.of(2018, 12, 31), "12:00:00", "02:00:00", "NY", "BOSTON");
+        //as.makeReservation(3,2);
     }
 
 }
