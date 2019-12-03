@@ -765,6 +765,17 @@ public class APIservice implements ServiceModule {
 
     @Override
     public boolean insertFlightByAirline(Flight flight) {
+        /*private Integer flightId;
+    private String flightCode;
+    private Source source;
+    private Destination destination;
+    private Integer availableSeat;
+    private String status;
+    private Airline airLine;
+    private Airplane airplane;
+    private Float fare;
+    private Integer capacity;
+    private Set<Customer> customers = new LinkedHashSet <>();*/
         return true;
     }
 

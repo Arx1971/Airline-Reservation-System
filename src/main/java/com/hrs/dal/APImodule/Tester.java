@@ -49,6 +49,7 @@ public class Tester {
         //as.makeReservation(3,2);
         //as.makeReservationBySearchEngine(3, "megatron@email.com", "12345");
         //as.makeReservationBySearchEngine(3, 2);
+        as.getAllFlightsByAirline("Delta", localDate);
     }
 
 }
